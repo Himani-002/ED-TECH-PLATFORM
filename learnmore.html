@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn More - EdTech</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f8f9fb;
+      color: #222;
+      line-height: 1.6;
+    }
+
+
+    /* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 0.8rem; /* reduced padding for a thinner look */
+    background-color: rgba(0, 0, 0, 0.75);
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    backdrop-filter: blur(6px);
+}
+
+.logo img {
+    height: 40px; /* smaller logo height */
+    width: 60px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.2rem; /* space between links */
+    list-style: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem; /* slightly smaller text */
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #f4c542;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.login-btn,
+.signup-btn {
+    padding: 0.4rem 0.8rem; /* thinner buttons */
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.login-btn {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.signup-btn {
+    background-color: #f4c542;
+    color: black;
+    font-weight: bold;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+    opacity: 0.85;
+}
+
+
+    /* Hero Section */
+.hero {
+  background: linear-gradient(to right, #111, #222);
+  color: white;
+  padding: 80px 10%;
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Responsive */
+  gap: 40px;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin-bottom: 30px;
+  color: #ddd;
+}
+
+.hero button {
+  background: #ffcc00;
+  color: #111;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.hero button:hover {
+  background: #e6b800;
+}
+
+.hero-image {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+
+    /* Features Section */
+    .features {
+      padding: 60px 10%;
+      background: white;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      color: #111;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: #f9f9f9;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      background: #f0f2f5;
+      padding: 60px 10%;
+      text-align: center;
+    }
+
+    .testimonials h2 {
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .testimonial {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      font-style: italic;
+    }
+
+    .testimonial strong {
+      display: block;
+      margin-top: 10px;
+      font-style: normal;
+      color: #111;
+    }
+
+    /* CTA Section */
+    .cta {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .cta h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      color: #ccc;
+    }
+
+    .cta button {
+      background: #ffcc00;
+      color: #111;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .cta button:hover {
+      background: #e6b800;
+    }
+
+
+/* Footer */
+.footer {
+  background: #000; /* Dark professional look */
+  color: #bbb;
+  padding: 60px 40px 30px;
+  margin-top: 0; /* remove unwanted gap */
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-col h4 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 8px;
+}
+
+.footer-col ul li a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-col ul li a:hover {
+  color: #ffcc00; /* Yellow hover */
+}
+
+.social-icons {
+  margin-top: 15px;
+}
+
+.social-icons a {
+  margin-right: 12px;
+  color: #bbb;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #ffcc00;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+  color: #777;
+  border-top: 1px solid #222;
+  padding-top: 20px;
+}
+
+
+  </style>
+</head>
+<body>
+
+
+    <header>
+    <nav class="navbar">
+      <div class="logo"><img src="logo.jpg" alt="EdTech Logo" class="skills-logo"></div>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="#">Catalog</a></li>
+        <li><a href="about.html">About </a></li>
+        <li><a href="#">Contact </a></li>
+      </ul>
+      <div class="nav-buttons">
+        <button class="login-btn">Log In</button>
+        <button class="signup-btn">Sign Up</button>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- Hero -->
+<section class="hero">
+  <div class="hero-container">
+    <!-- Left Side (Text) -->
+    <div class="hero-text">
+      <h1>Learn Anytime, Anywhere</h1>
+      <p>
+        Boost your skills with our expert-led courses designed for learners and
+        professionals. Get hands-on projects, real-world examples, and flexible learning.
+      </p>
+      <button>Start Learning</button>
+    </div>
+
+    <!-- Right Side (Image) -->
+    <div class="hero-image">
+      <img src="learnmore.jpg" alt="Learning Illustration">
+    </div>
+  </div>
+</section>
+
+  <!-- Features -->
+  <section class="features">
+    <h2>Why Choose Our Platform?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>🎓 Expert Instructors</h3>
+        <p>Learn from professionals with years of industry experience and teaching expertise.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📱 Flexible Learning</h3>
+        <p>Access courses anytime, on any device, at your own pace.</p>
+      </div>
+      <div class="feature-card">
+        <h3>💼 Career Growth</h3>
+        <p>Build job-ready skills and earn certificates that enhance your resume.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🌍 Community Support</h3>
+        <p>Join a vibrant community of learners and exchange knowledge with peers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What Our Learners Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial">
+        "This platform helped me land my first job in tech. The courses are practical and engaging."
+        <strong>– Ananya Sharma</strong>
+      </div>
+      <div class="testimonial">
+        "I loved the flexibility. I could learn on weekends and still balance my job."
+        <strong>– Rohit Mehta</strong>
+      </div>
+      <div class="testimonial">
+        "The instructors are amazing, and the community discussions really helped me clear doubts."
+        <strong>– Sneha Kapoor</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Ready to Start Learning?</h2>
+    <p>Explore 100+ expert-led courses and transform your career with our EdTech platform.</p>
+    <button>Join Now</button>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Subjects</h4>
+        <ul>
+          <li><a href="#">Web Development</a></li>
+          <li><a href="#">Data Science</a></li>
+          <li><a href="#">AI & ML</a></li>
+          <li><a href="#">Cybersecurity</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Languages</h4>
+        <ul>
+          <li><a href="#">Python</a></li>
+          <li><a href="#">JavaScript</a></li>
+          <li><a href="#">C++</a></li>
+          <li><a href="#">Java</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Career</h4>
+        <ul>
+          <li><a href="#">Interview Prep</a></li>
+          <li><a href="#">Resume Building</a></li>
+          <li><a href="#">Job Assistance</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#">🌐</a>
+          <a href="#">🐦</a>
+          <a href="#">▶️</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>Made with ❤️ for Learning • © 2025 EdTech Platform</p>
+    </div>
+  </footer>
+
+
+
+</body>
+</html>
