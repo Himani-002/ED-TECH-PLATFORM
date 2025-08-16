@@ -9,62 +9,281 @@
 <body>
   <header>
     <nav class="navbar">
-      <div class="logo">🎓 EdTech</div>
+      <div class="logo"><img src="logo.jpg" alt="EdTech Logo" class="skills-logo"></div>
       <ul class="nav-links">
-        <li><a href="#" class="active">Home</a></li>
+        <li><a href="index.html" class="active">Home</a></li>
         <li><a href="#">Catalog</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="about.html">About </a></li>
+        <li><a href="#">Contact </a></li>
       </ul>
       <div class="nav-buttons">
-        <button class="login-btn">Log in</button>
+        <button class="login-btn">Log In</button>
         <button class="signup-btn">Sign Up</button>
       </div>
     </nav>
   </header>
 
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-     
       <h1>Code Your Way to a <span class="highlight">Better Future</span></h1>
       <p>Flexible online courses designed to turn beginners into job-ready developers.</p>
       <div class="cta-buttons">
-        <a href="#" class="learn-btn">Learn More</a>
+        <a href="learnmore.html" class="learn-btn">Learn More</a>
+
         <a href="#" class="Join-btn">Join for Free</a>
       </div>
     </div>
   </section>
 
-<!-- next part -->
-<section class="features">
-  <div class="features-wrapper">
-    
-    <!-- Left Side: Text Content -->
-    <div class="features-text">
-      <h1>Unlock Your <span class="highlight">coding potential</span> with our online courses</h1>
-      <p>Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you.</p>
-      <div class="cta-buttons">
-        <a href="#" class="try-btn">Try it Yourself</a>
-        <a href="#" class="learn-btn">Learn More</a>
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-wrapper">
+      <div class="features-text">
+        <h1>Unlock Your <span class="highlight">coding potential</span> with our online courses</h1>
+        <p>Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you.</p>
+        <div class="cta-buttons">
+          <a href="#" class="try-btn">Try it Yourself</a>
+          <a href="learnmore.html" class="learn-btn">Learn More</a>
+        </div>
       </div>
-    </div>
-
-    <!-- Right Side: Code Block -->
-    <div class="features-code">
-      <pre><code>
+      <div class="features-code">
+        <pre><code>
 #include &lt;stdio.h&gt;
 
 int main() {
     printf("Hello, world!");
     return 0;
 }
-      </code></pre>
+        </code></pre>
+      </div>
     </div>
+  </section>
+
+  <!-- Popular Picks -->
+  <h2>Popular Picks for You 🏆</h2>
+  <div class="carousel-container">
+    <button class="carousel-btn left">&#8249;</button>
+    <div class="carousel">
+      <a href="https://www.youtube.com/watch?v=yGB9jhsEsr8" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/yGB9jhsEsr8/hqdefault.jpg" alt="C++ Basics">
+      </a>
+      <a href="https://www.youtube.com/watch?v=_uQrJ0TkZlc" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/_uQrJ0TkZlc/hqdefault.jpg" alt="Python Basics">
+      </a>
+      <a href="https://www.youtube.com/watch?v=GoXwIVyNvX0" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/GoXwIVyNvX0/hqdefault.jpg" alt="Java Basics">
+      </a>
+      <a href="https://www.youtube.com/watch?v=HD13eq_Pmp8" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/HD13eq_Pmp8/hqdefault.jpg" alt="HTML CSS JS Basics">
+      </a>
+      <a href="https://www.youtube.com/watch?v=HcOc7P5BMi4" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/HcOc7P5BMi4/hqdefault.jpg" alt="Frontend Development">
+      </a>
+      <a href="https://www.youtube.com/watch?v=Zftx68K-1D4" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/Zftx68K-1D4/hqdefault.jpg" alt="Backend Development">
+      </a>
+      <a href="https://www.youtube.com/watch?v=W6NZfCO5SIk" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/W6NZfCO5SIk/hqdefault.jpg" alt="JavaScript Basics">
+      </a>
+      <a href="https://www.youtube.com/watch?v=pKd0Rpw7O48" target="_blank" class="card">
+        <div class="skeleton"></div>
+        <img src="https://img.youtube.com/vi/pKd0Rpw7O48/hqdefault.jpg" alt="Node.js Basics">
+      </a>
+    </div>
+    <button class="carousel-btn right">&#8250;</button>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Skills Upgrade Section -->
+<section class="skills-section">
+  <div class="skills-content">
     
+    <h2>
+      Upgrade Your <span class="highlight">Skills</span> for the 
+      <span class="highlight-alt">Future You Deserve</span>
+    </h2>
+    <p>
+      Stay ahead in the fast-changing world. Learn practical skills and master 
+      the tools that will make you stand out in your career.
+    </p>
+    <a href="learnmore.html"  class="learn-more-btn">Learn more</a>
+  </div>
+</section>
+
+
+<section class="learning-tools">
+  <h2>Your Smart Companion for Learning Success</h2>
+  <p class="subtitle">
+    Track achievements, connect with peers, and stay on top of your schedule.
+  </p>
+
+  <div class="cards">
+    <!-- Card 1 -->
+    <div class="learning-card card-progress">
+      <div class="card-header blue">Your Achievements</div>
+      <p><strong>Web Development</strong></p>
+      <div class="stats">
+        <div>
+          <h4>92%</h4>
+          <span>Course Completed</span>
+        </div>
+        <div>
+          <h4>60 hrs</h4>
+          <span>Learning Time</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="learning-card card-leaderboard">
+      <div class="card-header pink">Top Learners</div>
+      <ul>
+        <li>👩‍💻 Ananya Sharma</li>
+        <li>📊 Rohit Mehta</li>
+        <li>💡 Sneha Kapoor</li>
+        <li>🖥 Arjun Verma</li>
+      </ul>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="learning-card card-calendar">
+      <div class="card-header yellow">Upcoming Schedule</div>
+      <img src="cal.jpg" alt="Calendar" />
+    </div>
+  </div>
+</section>
+
+
+
+<section class="reviews-section">
+  <h2>Reviews from other learners ✍️</h2>
+  <div class="reviews-slider" id="reviewsSlider">
+    
+    <!-- Review 1 -->
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">AG</div>
+        <div class="review-info">
+          <h4>Aniruddha Gade</h4>
+          <span>DSA Specialization</span>
+        </div>
+      </div>
+      <p class="review-text">
+        “The 'Data Structures and Algorithms Specialization' is an absolute gem for anyone looking to master coding fundamentals.”
+      </p>
+      <div class="review-rating">⭐⭐⭐⭐⭐</div>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">DP</div>
+        <div class="review-info">
+          <h4>Dgfh Patel</h4>
+          <span>Full Stack MERN</span>
+        </div>
+      </div>
+      <p class="review-text">
+        “Great experience! The projects gave me real-world coding confidence.”
+      </p>
+      <div class="review-rating">⭐⭐⭐⭐⭐</div>
+    </div>
+
+    <!-- Review 3 -->
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">AA</div>
+        <div class="review-info">
+          <h4>Aldkf Alskdjf</h4>
+          <span>Web Development</span>
+        </div>
+      </div>
+      <p class="review-text">
+        “Nice content but sometimes the website loads slow — optional chaining would help!”
+      </p>
+      <div class="review-rating">⭐⭐⭐⭐⭐</div>
+    </div>
+
+    <!-- Review 4 -->
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-avatar">RK</div>
+        <div class="review-info">
+          <h4>Rahul Kumar</h4>
+          <span>Full Stack MERN</span>
+        </div>
+      </div>
+      <p class="review-text">
+        “The mentors are super helpful and the content is really engaging.”
+      </p>
+      <div class="review-rating">⭐⭐⭐⭐⭐</div>
+    </div>
 
   </div>
 </section>
 
 
-</body>
-</html>
+<!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Subjects</h4>
+        <ul>
+          <li><a href="#">Web Development</a></li>
+          <li><a href="#">Data Science</a></li>
+          <li><a href="#">AI & ML</a></li>
+          <li><a href="#">Cybersecurity</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Languages</h4>
+        <ul>
+          <li><a href="#">Python</a></li>
+          <li><a href="#">JavaScript</a></li>
+          <li><a href="#">C++</a></li>
+          <li><a href="#">Java</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Career</h4>
+        <ul>
+          <li><a href="#">Interview Prep</a></li>
+          <li><a href="#">Resume Building</a></li>
+          <li><a href="#">Job Assistance</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#">🌐</a>
+          <a href="#">🐦</a>
+          <a href="#">▶️</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>Made with ❤️ for Learning • © 2025 EdTech Platform</p>
+    </div>
+  </footer>
+
