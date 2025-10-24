@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Course - Ed Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000814;
+            color: #CBD5E1;
+        }
+        /* Gradient text */
+        .gradient-text-blue {
+            background: linear-gradient(to right, #00B4DB, #0083B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+         .gradient-text-orange {
+            background: linear-gradient(to right, #FF9933, #FF512F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+             opacity: 1;
+             transform: translateY(0);
+        }
+        /* Accordion Styles */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-button svg {
+            transition: transform 0.3s ease-out;
+        }
+        .accordion-button.open svg {
+            transform: rotate(180deg);
+        }
+        .scroll-to-top {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 sticky top-0 z-50 shadow-md shadow-slate-800 backdrop-blur-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Ed Tech</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Home</a>
+                <!-- Catalog Dropdown -->
+                <div class="relative group">
+                    <button class="text-yellow-400 transition duration-300 flex items-center"> <!-- Highlight Catalog -->
+                        Catalog
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute hidden group-hover:block bg-white text-black rounded-md shadow-lg mt-2 py-2 w-48 z-10">
+                        <a href="webdev.html" class="block px-4 py-2 bg-gray-200">Web Development</a> <!-- Highlight current page -->
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Data Science</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">C++</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Python</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Java</a>
+                    </div>
+                </div>
+                <a href="about.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">About</a>
+                <a href="contact.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Contact</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="login.html" class="text-white hover:text-yellow-400 transition">Log In</a>
+                <a href="signup.html" class="bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300">Sign Up</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+            <a href="index.html" class="block text-slate-300 hover:text-yellow-400 py-2">Home</a>
+             <a href="#" class="block text-yellow-400 py-2">Catalog</a> <!-- Highlight Catalog -->
+            <a href="about.html" class="block text-slate-300 hover:text-yellow-400 py-2">About</a>
+            <a href="contact.html" class="block text-slate-300 hover:text-yellow-400 py-2">Contact</a>
+             <div class="mt-4 pt-4 border-t border-slate-700">
+                <a href="login.html" class="w-full text-left text-white hover:text-yellow-400 transition py-2">Log In</a>
+                <a href="signup.html" class="w-full mt-2 bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300 block text-center">Sign Up</a>
+             </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Course Hero Section -->
+        <section class="py-20 lg:py-28 bg-[#0c1322]">
+            <div class="container mx-auto px-6 text-center fade-in">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+                    Full Stack <span class="gradient-text-blue">Web Development</span> Course
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-400">
+                    Master front-end and back-end technologies to build modern, responsive web applications from scratch. Become a job-ready developer.
+                </p>
+                <div class="mt-8">
+                     <a href="webdev11.html" class="bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300"> <!-- Changed href to login.html -->
+                         Enroll Now
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Details Section -->
+        <section class="py-16 lg:py-24">
+            <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+                <!-- Left Column: What You'll Learn & Curriculum -->
+                <div class="lg:col-span-2 space-y-12">
+                    <!-- What You'll Learn -->
+                    <div class="fade-in">
+                        <h2 class="text-3xl font-bold text-white mb-6">What You'll Learn</h2>
+                        <ul class="list-disc list-inside space-y-3 text-slate-300 pl-2">
+                            <li>Build responsive websites using HTML5 and CSS3.</li>
+                            <li>Master JavaScript fundamentals and modern ES6+ features.</li>
+                            <li>Develop dynamic front-end applications with React (or specify another framework).</li>
+                            <li>Create robust back-end APIs using Node.js and Express.</li>
+                            <li>Work with databases like MongoDB or PostgreSQL.</li>
+                            <li>Understand authentication, security best practices, and deployment strategies.</li>
+                            <li>Utilize Git and GitHub for version control and collaboration.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Course Curriculum (Accordion) -->
+                    <div class="fade-in">
+                        <h2 class="text-3xl font-bold text-white mb-6">Course Curriculum</h2>
+                        <div id="accordion-container" class="space-y-4">
+                            <!-- Module 1 -->
+                            <div class="bg-[#162136] rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-white font-semibold focus:outline-none">
+                                    <span>Module 1: Introduction to Web Development</span>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="accordion-content px-5 pb-5 text-slate-400">
+                                    <ul class="list-disc list-inside space-y-2 mt-3 pl-2">
+                                        <li>How the web works: HTTP, Browsers, Servers</li>
+                                        <li>Introduction to HTML: Structure, Elements, Semantics</li>
+                                        <li>Introduction to CSS: Selectors, Box Model, Layouts</li>
+                                        <li>Developer Tools Basics</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Module 2 -->
+                            <div class="bg-[#162136] rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-white font-semibold focus:outline-none">
+                                    <span>Module 2: JavaScript Fundamentals</span>
+                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="accordion-content px-5 pb-5 text-slate-400">
+                                    <ul class="list-disc list-inside space-y-2 mt-3 pl-2">
+                                        <li>Variables, Data Types, Operators</li>
+                                        <li>Control Flow: Conditionals and Loops</li>
+                                        <li>Functions and Scope</li>
+                                        <li>DOM Manipulation and Events</li>
+                                        <li>Introduction to ES6+ Features</li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <!-- Module 3: Frontend Framework (React Example) -->
+                            <div class="bg-[#162136] rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-white font-semibold focus:outline-none">
+                                    <span>Module 3: Frontend Development with React</span>
+                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="accordion-content px-5 pb-5 text-slate-400">
+                                    <ul class="list-disc list-inside space-y-2 mt-3 pl-2">
+                                        <li>Introduction to React: Components, JSX, Props</li>
+                                        <li>State Management and Lifecycle</li>
+                                        <li>Hooks (useState, useEffect)</li>
+                                        <li>Routing with React Router</li>
+                                        <li>Fetching Data from APIs</li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <!-- Module 4: Backend Development -->
+                             <div class="bg-[#162136] rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-white font-semibold focus:outline-none">
+                                    <span>Module 4: Backend with Node.js & Express</span>
+                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="accordion-content px-5 pb-5 text-slate-400">
+                                    <ul class="list-disc list-inside space-y-2 mt-3 pl-2">
+                                        <li>Introduction to Node.js</li>
+                                        <li>Building REST APIs with Express</li>
+                                        <li>Middleware</li>
+                                        <li>Working with Databases (e.g., MongoDB with Mongoose)</li>
+                                        <li>Authentication and Authorization</li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <!-- Module 5: Deployment & More -->
+                             <div class="bg-[#162136] rounded-lg">
+                                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-white font-semibold focus:outline-none">
+                                    <span>Module 5: Version Control & Deployment</span>
+                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div class="accordion-content px-5 pb-5 text-slate-400">
+                                     <ul class="list-disc list-inside space-y-2 mt-3 pl-2">
+                                        <li>Git Basics and GitHub Workflow</li>
+                                        <li>Introduction to Deployment (e.g., Heroku, Netlify, Vercel)</li>
+                                        <li>Final Project Development</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Course Info & Instructor -->
+                <div class="lg:col-span-1 space-y-8 fade-in">
+                     <!-- Course Info Card -->
+                    <div class="bg-[#0c1322] p-6 rounded-lg shadow-lg sticky top-24"> <!-- Added sticky comment -->
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Web Development Course" class="rounded-md mb-5 w-full h-40 object-cover" onerror="this.src='https://placehold.co/600x400/0c1322/ffffff?text=Web+Dev'">
+                        <h3 class="text-2xl font-bold text-white mb-4">Course Details</h3>
+                        <div class="space-y-3 text-slate-300">
+                            <p><strong><span class="text-yellow-400">Duration:</span></strong> 12 Weeks (Approx. 15-20 hours/week)</p>
+                            <p><strong><span class="text-yellow-400">Skill Level:</span></strong> Beginner to Intermediate</p>
+                            <p><strong><span class="text-yellow-400">Format:</span></strong> Online Videos, Projects, Quizzes</p>
+                            <p><strong><span class="text-yellow-400">Certificate:</span></strong> Included upon Completion</p>
+                            <p><strong><span class="text-yellow-400">Price:</span></strong> $499 (or mention Free/Subscription)</p>
+                        </div>
+                        <a href="webdev11.html" class="block w-full text-center mt-6 bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300"> <!-- Changed href to login.html -->
+                            Enroll Now
+                        </a>
+                    </div>
+
+                     <!-- Instructor Card -->
+                    <div class="bg-[#0c1322] p-6 rounded-lg shadow-lg fade-in">
+                        <h3 class="text-2xl font-bold text-white mb-4">Meet Your Instructor</h3>
+                        <div class="flex items-center gap-4">
+                            <img src="https://placehold.co/80x80/162136/ffffff?text=Instructor" alt="Instructor Name" class="rounded-full w-16 h-16">
+                            <div>
+                                <h4 class="font-semibold text-lg text-white">Jane Doe</h4>
+                                <p class="text-sm text-slate-400">Senior Web Developer</p>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-slate-400 text-sm">
+                            Jane has over 10 years of experience building scalable web applications for tech companies. She's passionate about teaching and mentoring aspiring developers.
+                        </p>
+                    </div>
+
+                      <!-- Prerequisites -->
+                    <div class="bg-[#0c1322] p-6 rounded-lg shadow-lg fade-in">
+                        <h3 class="text-2xl font-bold text-white mb-4">Prerequisites</h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2 text-sm">
+                            <li>Basic computer literacy.</li>
+                            <li>Access to a computer and internet connection.</li>
+                            <li>No prior programming experience required!</li>
+                            <li>Motivation to learn and practice consistently.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- Enrollment/CTA Section -->
+        <section id="enroll" class="py-16 lg:py-20 bg-[#162136] fade-in">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
+                    Ready to Start Building Your Future?
+                 </h2>
+                 <p class="mt-4 max-w-xl mx-auto text-lg text-slate-400 mb-8">
+                     Join thousands of learners and launch your web development career today.
+                 </p>
+                 <a href="webdev11.html" class="bg-yellow-400 text-black font-bold py-3 px-10 rounded-lg hover:bg-yellow-500 transition duration-300 text-lg"> <!-- Changed href to login.html -->
+                     Enroll Now
+                 </a>
+            </div>
+        </section>
+
+
+    </main> <!-- This is the single, correct main closing tag -->
+
+    <!-- Footer -->
+    <footer class="bg-[#000814] border-t border-slate-800 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-xl font-bold text-white">Ed Tech</h4>
+                    <p class="text-slate-400 mt-2">Empowering the future of learning.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Subjects</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Web Development</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Data Science</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">AI & ML</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Languages</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Python</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">JavaScript</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">C++</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Java</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Company</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="about.html" class="hover:text-yellow-400">About</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Careers</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Blog</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                       <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Twitter Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.76 2.81 1.91 3.58-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.35 0-.69-.02-1.03-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.38-.01-.57.84-.6 1.56-1.36 2.14-2.22z"></path></svg>
+                       </a>
+                        <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Facebook Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-5.5H9V9.5h2V7.41c0-2.09 1.29-3.25 3.23-3.25.92 0 1.7.07 1.93.1v2.12h-1.26c-1.03 0-1.23.49-1.23 1.2v1.42h2.36l-.31 2H14.73V17H11z"></path></svg>
+                       </a>
+                        <!-- Add more social icons as needed -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-800 pt-8 text-center text-slate-500">
+                <p>&copy; 2025 Ed Tech. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4 hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+             // Fade-in animation on scroll
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: "0px 0px -50px 0px" // Start loading a bit before it enters viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScrollObserver) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScrollObserver.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+
+            // Accordion Functionality
+            const accordionContainer = document.getElementById('accordion-container');
+            if (accordionContainer) {
+                 accordionContainer.addEventListener('click', function(event) {
+                    const button = event.target.closest('.accordion-button');
+                    if (!button) return; // Exit if click wasn't on a button
+
+                    const content = button.nextElementSibling;
+                    const isOpen = button.classList.contains('open');
+
+                    // Optional: Close other open accordions
+                    // const allButtons = accordionContainer.querySelectorAll('.accordion-button');
+                    // allButtons.forEach(btn => {
+                    //     if (btn !== button) {
+                    //        btn.classList.remove('open');
+                    //        btn.nextElementSibling.style.maxHeight = null;
+                    //     }
+                    // });
+
+                    if (isOpen) {
+                        button.classList.remove('open');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('open');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            }
+
+
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                    } else {
+                        scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
+                    }
+                });
+
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
+
+
+
