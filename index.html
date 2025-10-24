@@ -1,289 +1,505 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EdTech - Empower Your Future</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ed Tech - Empower Your Future</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display-swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000814;
+            color: #CBD5E1;
+        }
+
+        .gradient-text-blue {
+            background: linear-gradient(to right, #00B4DB, #0083B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* Code typing animation */
+        .code-block-content {
+            font-family: 'Courier New', Courier, monospace;
+            color: #a7b3c5;
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #f7b733;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: #f7b733; }
+        }
+        
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .learning-card.visible {
+            animation: floatIn 0.8s ease-out forwards;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        
+        /* Carousel styling */
+        .carousel {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        .carousel::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }
+        .carousel-item {
+            scroll-snap-align: start;
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <nav class="navbar">
-      <div class="logo"><img src="logo.jpg" alt="EdTech Logo" class="skills-logo"></div>
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="#">Catalog</a></li>
-        <li><a href="about.html">About </a></li>
-        <li><a href="#">Contact </a></li>
-      </ul>
-      <div class="nav-buttons">
-        <button class="login-btn">Log In</button>
-        <button class="signup-btn">Sign Up</button>
-      </div>
-    </nav>
-  </header>
+<body class="antialiased">
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Code Your Way to a <span class="highlight">Better Future</span></h1>
-      <p>Flexible online courses designed to turn beginners into job-ready developers.</p>
-      <div class="cta-buttons">
-        <a href="learnmore.html" class="learn-btn">Learn More</a>
-
-        <a href="#" class="Join-btn">Join for Free</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="features">
-    <div class="features-wrapper">
-      <div class="features-text">
-        <h1>Unlock Your <span class="highlight">coding potential</span> with our online courses</h1>
-        <p>Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you.</p>
-        <div class="cta-buttons">
-          <a href="#" class="try-btn">Try it Yourself</a>
-          <a href="learnmore.html" class="learn-btn">Learn More</a>
+    <!-- Header -->
+    <header class="bg-slate-900/80 sticky top-0 z-50 shadow-md shadow-slate-800 backdrop-blur-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">Ed Tech</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Home</a>
+                <!-- Catalog Dropdown -->
+                <div class="relative group">
+                    <button class="text-slate-300 hover:text-yellow-400 transition duration-300 flex items-center">
+                        Catalog
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute hidden group-hover:block bg-white text-black rounded-md shadow-lg mt-2 py-2 w-48">
+                        <a href="webdev.html" class="block px-4 py-2 hover:bg-gray-200">Web Development</a>
+                        <a href="" class="block px-4 py-2 hover:bg-gray-200">Data Science</a>
+                        <a href="cpp.html" class="block px-4 py-2 hover:bg-gray-200">C++</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Python</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Java</a>
+                    </div>
+                </div>
+                <a href="about.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">About</a>
+                <a href="contact.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Contact</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <button class="text-white hover:text-yellow-400 transition">Log In</button>
+                <button class="bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300">Sign Up</button>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+             <a href="home.html" class="block text-slate-300 hover:text-yellow-400 py-2">Home</a>
+             <a href="#" class="block text-slate-300 hover:text-yellow-400 py-2">Catalog</a>
+             <a href="about.html" class="block text-slate-300 hover:text-yellow-400 py-2">About</a>
+             <a href="contact.html" class="block text-slate-300 hover:text-yellow-400 py-2">Contact</a>
+             <div class="mt-4 pt-4 border-t border-slate-700">
+                <button class="w-full text-left text-white hover:text-yellow-400 transition py-2">Log In</button>
+                <button class="w-full mt-2 bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300">Sign Up</button>
+             </div>
         </div>
-      </div>
-      <div class="features-code">
-        <pre><code>
-#include &lt;stdio.h&gt;
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Section 1: Hero -->
+        <section id="home" class="relative py-32 lg:py-48 text-white overflow-hidden">
+            <div class="absolute inset-0 z-[-1]">
+                <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="w-full h-full object-cover" alt="Code background">
+                <div class="absolute inset-0 bg-black/70"></div>
+            </div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <div class="fade-in">
+                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+                        Code Your Way to a <span class="text-yellow-300">Better Future</span>
+                    </h1>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-300">
+                        Flexible online courses designed to turn beginners into job-ready developers.
+                    </p>
+                    <div class="mt-10 flex justify-center gap-4">
+                        <button class="bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300 transform hover:scale-105">Learn More</button>
+                        <button class="bg-slate-700 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600 transition duration-300 transform hover:scale-105">Join For Free</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Unlock Potential -->
+        <section class="py-20 lg:py-28 bg-[#0c1322]">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2 text-center lg:text-left fade-in">
+                        <h2 class="text-4xl font-extrabold text-white">Unlock Your <span class="gradient-text-blue">coding potential</span> with our online courses</h2>
+                        <p class="mt-6 text-slate-400">Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you.</p>
+                        <div class="mt-8 flex justify-center lg:justify-start gap-4">
+                            <button class="border border-yellow-400 text-yellow-400 font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 hover:text-black transition duration-300">Try it Yourself</button>
+                            <button class="bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 w-full fade-in" style="transition-delay: 200ms;">
+                        <div id="code-block" class="bg-[#020617] rounded-lg p-6 shadow-2xl border border-slate-700">
+                            <pre><code class="code-block-content"></code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Popular Picks -->
+        <section class="py-20 lg:py-28">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12 fade-in">Popular Picks for You 🏆</h2>
+                <div class="relative fade-in">
+                    <div id="popular-carousel" class="carousel flex overflow-x-auto gap-8 pb-4">
+                        <!-- Carousel items injected here -->
+                    </div>
+                    <button id="popular-prev" class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&lt;</button>
+                    <button id="popular-next" class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&gt;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Tools Section -->
+        <section class="py-20 lg:py-28 bg-[#0c1322]">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white fade-in">Your Smart Companion for Learning Success</h2>
+                <p class="mt-4 text-slate-400 max-w-2xl mx-auto fade-in">Track achievements, connect with peers, and stay on top of your schedule.</p>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="learning-card bg-slate-800 p-6 rounded-lg text-left opacity-0">
+                        <h3 class="text-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-3 rounded-t-lg -m-6 mb-6">Your Achievements</h3>
+                        <p class="font-semibold text-white">Web Development</p>
+                        <div class="flex justify-between mt-4">
+                            <div><p class="text-2xl font-bold text-white">92%</p><p class="text-sm text-slate-400">Completed</p></div>
+                            <div><p class="text-2xl font-bold text-white">60 hrs</p><p class="text-sm text-slate-400">Learning Time</p></div>
+                        </div>
+                    </div>
+                     <div class="learning-card bg-slate-800 p-6 rounded-lg text-left opacity-0" style="animation-delay: 0.2s;">
+                        <h3 class="text-xl font-bold bg-gradient-to-r from-pink-500 to-red-500 text-white p-3 rounded-t-lg -m-6 mb-6">Top Learners</h3>
+                        <ul class="space-y-2 mt-4 text-slate-300">
+                            <li>👩‍💻 Ananya Sharma</li>
+                            <li>📊 Rohit Mehta</li>
+                            <li>💡 Sneha Kapoor</li>
+                            <li>🖥 Arjun Verma</li>
+                        </ul>
+                    </div>
+                     <div class="learning-card bg-slate-800 p-6 rounded-lg text-left opacity-0" style="animation-delay: 0.4s;">
+                        <h3 class="text-xl font-bold bg-gradient-to-r from-yellow-500 to-amber-400 text-white p-3 rounded-t-lg -m-6 mb-6">Upcoming Schedule</h3>
+                        <img src="https://placehold.co/400x250/1e293b/ffffff?text=Your+Calendar" alt="Calendar" class="rounded-md mt-4 w-full h-auto"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews" class="py-20 lg:py-28">
+            <div class="container mx-auto px-6">
+                 <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12 fade-in">Reviews from other learners ✍️</h2>
+                 <div class="relative fade-in">
+                    <div id="reviews-carousel" class="carousel flex overflow-x-auto gap-8 pb-4">
+                       <!-- Review items injected here -->
+                    </div>
+                    <button id="reviews-prev" class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&lt;</button>
+                    <button id="reviews-next" class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&gt;</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Form Section -->
+        <section id="contact" class="py-20 lg:py-28 bg-[#0c1322]">
+            <div class="container mx-auto px-6 max-w-3xl text-center fade-in">
+                <h2 class="text-4xl font-bold text-white">Get in Touch</h2>
+                <p class="mt-4 text-slate-400">We'd love to hear for you. Please fill out this form.</p>
+                <form id="contact-form" action="https://formspree.io/f/mwprjalv" method="POST" class="mt-10 text-left">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="first-name" class="block text-slate-400 mb-2">First Name</label>
+                            <input type="text" id="first-name" name="firstName" placeholder="Enter first name" required class="w-full bg-[#162136] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        </div>
+                        <div>
+                            <label for="last-name" class="block text-slate-400 mb-2">Last Name</label>
+                            <input type="text" id="last-name" name="lastName" placeholder="Enter last name" required class="w-full bg-[#162136] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <label for="email" class="block text-slate-400 mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email address" required class="w-full bg-[#162136] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    </div>
+                    <div class="mt-6">
+                        <label for="message" class="block text-slate-400 mb-2">Message</label>
+                        <textarea id="message" name="message" placeholder="Enter your message here" rows="5" required class="w-full bg-[#162136] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"></textarea>
+                    </div>
+                    <div class="mt-8 text-center">
+                         <button type="submit" class="w-full bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300">
+                            Send Message
+                        </button>
+                    </div>
+                    <div id="form-status" class="mt-4 text-center text-lg"></div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#000814] border-t border-slate-800 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-xl font-bold text-white">Ed Tech</h4>
+                    <p class="text-slate-400 mt-2">Empowering the future of learning.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Subjects</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Web Development</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Data Science</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">AI & ML</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Languages</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Python</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">JavaScript</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">C++</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Java</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Company</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">About</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Careers</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Blog</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                       <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.76 2.81 1.91 3.58-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.35 0-.69-.02-1.03-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.38-.01-.57.84-.6 1.56-1.36 2.14-2.22z"></path></svg>
+                       </a>
+                        <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-5.5H9V9.5h2V7.41c0-2.09 1.29-3.25 3.23-3.25.92 0 1.7.07 1.93.1v2.12h-1.26c-1.03 0-1.23.49-1.23 1.2v1.42h2.36l-.31 2H14.73V17H11z"></path></svg>
+                       </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-800 pt-8 text-center text-slate-500">
+                <p>&copy; 2025 Ed Tech. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4">
+         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Intersection Observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in, .learning-card').forEach(el => observer.observe(el));
+
+            // Code typing animation
+            const codeBlock = document.getElementById('code-block');
+            const codeElement = codeBlock.querySelector('.code-block-content');
+            const codeToType = `#include <stdio.h>
 
 int main() {
     printf("Hello, world!");
     return 0;
-}
-        </code></pre>
-      </div>
-    </div>
-  </section>
+}`;
 
-  <!-- Popular Picks -->
-  <h2>Popular Picks for You 🏆</h2>
-  <div class="carousel-container">
-    <button class="carousel-btn left">&#8249;</button>
-    <div class="carousel">
-      <a href="https://www.youtube.com/watch?v=yGB9jhsEsr8" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/yGB9jhsEsr8/hqdefault.jpg" alt="C++ Basics">
-      </a>
-      <a href="https://www.youtube.com/watch?v=_uQrJ0TkZlc" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/_uQrJ0TkZlc/hqdefault.jpg" alt="Python Basics">
-      </a>
-      <a href="https://www.youtube.com/watch?v=GoXwIVyNvX0" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/GoXwIVyNvX0/hqdefault.jpg" alt="Java Basics">
-      </a>
-      <a href="https://www.youtube.com/watch?v=HD13eq_Pmp8" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/HD13eq_Pmp8/hqdefault.jpg" alt="HTML CSS JS Basics">
-      </a>
-      <a href="https://www.youtube.com/watch?v=HcOc7P5BMi4" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/HcOc7P5BMi4/hqdefault.jpg" alt="Frontend Development">
-      </a>
-      <a href="https://www.youtube.com/watch?v=Zftx68K-1D4" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/Zftx68K-1D4/hqdefault.jpg" alt="Backend Development">
-      </a>
-      <a href="https://www.youtube.com/watch?v=W6NZfCO5SIk" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/W6NZfCO5SIk/hqdefault.jpg" alt="JavaScript Basics">
-      </a>
-      <a href="https://www.youtube.com/watch?v=pKd0Rpw7O48" target="_blank" class="card">
-        <div class="skeleton"></div>
-        <img src="https://img.youtube.com/vi/pKd0Rpw7O48/hqdefault.jpg" alt="Node.js Basics">
-      </a>
-    </div>
-    <button class="carousel-btn right">&#8250;</button>
-  </div>
+            let i = 0;
+            function typeCode() {
+                if (i < codeToType.length) {
+                    codeElement.innerHTML += codeToType.charAt(i) === '\n' ? '<br>' : codeToType.charAt(i);
+                    i++;
+                    setTimeout(typeCode, 50);
+                } else {
+                     codeElement.innerHTML += '<span class="typing-cursor"></span>';
+                }
+            }
+            
+            const codeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        typeCode();
+                        codeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            codeObserver.observe(codeBlock);
 
-  <script src="script.js"></script>
-  <!-- Skills Upgrade Section -->
-<section class="skills-section">
-  <div class="skills-content">
-    
-    <h2>
-      Upgrade Your <span class="highlight">Skills</span> for the 
-      <span class="highlight-alt">Future You Deserve</span>
-    </h2>
-    <p>
-      Stay ahead in the fast-changing world. Learn practical skills and master 
-      the tools that will make you stand out in your career.
-    </p>
-    <a href="learnmore.html"  class="learn-more-btn">Learn more</a>
-  </div>
-</section>
+            // Contact Form Submission
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+            async function handleSubmit(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                formStatus.innerText = 'Sending...';
+                formStatus.style.color = '#FBBF24';
+                try {
+                    const response = await fetch(event.target.action, {
+                        method: contactForm.method,
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (response.ok) {
+                        formStatus.innerText = "Thanks for your message! I'll get back to you soon.";
+                        formStatus.style.color = '#34D399';
+                        contactForm.reset();
+                    } else {
+                        response.json().then(data => {
+                            formStatus.innerText = data.errors ? data.errors.map(e => e.message).join(", ") : "Oops! There was a problem.";
+                            formStatus.style.color = '#F87171';
+                        });
+                    }
+                } catch (error) {
+                    formStatus.innerText = "Oops! There was a problem submitting your form.";
+                    formStatus.style.color = '#F87171';
+                }
+                setTimeout(() => { formStatus.innerText = ''; }, 5000);
+            }
+            contactForm.addEventListener("submit", handleSubmit);
 
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                } else {
+                    scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
+                }
+            });
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // --- CAROUSEL LOGIC ---
+            function setupCarousel(carouselId, prevBtnId, nextBtnId, items) {
+                const carousel = document.getElementById(carouselId);
+                const prevBtn = document.getElementById(prevBtnId);
+                const nextBtn = document.getElementById(nextBtnId);
+                
+                carousel.innerHTML = items;
 
-<section class="learning-tools">
-  <h2>Your Smart Companion for Learning Success</h2>
-  <p class="subtitle">
-    Track achievements, connect with peers, and stay on top of your schedule.
-  </p>
+                const scroll = () => {
+                    const scrollLeft = carousel.scrollLeft;
+                    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                    prevBtn.style.display = scrollLeft > 0 ? 'block' : 'none';
+                    nextBtn.style.display = scrollLeft < maxScroll - 1 ? 'block' : 'none';
+                };
 
-  <div class="cards">
-    <!-- Card 1 -->
-    <div class="learning-card card-progress">
-      <div class="card-header blue">Your Achievements</div>
-      <p><strong>Web Development</strong></p>
-      <div class="stats">
-        <div>
-          <h4>92%</h4>
-          <span>Course Completed</span>
-        </div>
-        <div>
-          <h4>60 hrs</h4>
-          <span>Learning Time</span>
-        </div>
-      </div>
-    </div>
+                const slide = (direction) => {
+                    const cardWidth = carousel.querySelector('.carousel-item').offsetWidth + 32; // 32 is gap
+                    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+                };
+                
+                prevBtn.addEventListener('click', () => slide(-1));
+                nextBtn.addEventListener('click', () => slide(1));
+                carousel.addEventListener('scroll', scroll);
+                
+                // Initial check
+                setTimeout(scroll, 100);
+            }
+            
+            // Popular Picks Data and Setup
+            const popularItems = [
+                { img: 'https://placehold.co/400x225/f97316/ffffff?text=Learn+Java', title: 'Learn Java - Full Course' },
+                { img: 'https://placehold.co/400x225/ef4444/ffffff?text=HTML+in+1+Hour', title: 'HTML in 1 Hour' },
+                { img: 'https://placehold.co/400x225/3b82f6/ffffff?text=Complete+HTML', title: 'Complete 2 Hour HTML' },
+                { img: 'https://placehold.co/400x225/8b5cf6/ffffff?text=Web+Development', title: 'Web Development Guide' },
+                { img: 'https://placehold.co/400x225/ec4899/ffffff?text=JavaScript', title: 'Learn JavaScript in 1 Hour' },
+            ];
+            const popularHTML = popularItems.map(item => `
+                <div class="carousel-item flex-shrink-0 w-80 bg-slate-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                    <img src="${item.img}" alt="${item.title}" class="w-full h-48 object-cover">
+                    <div class="p-4"><h4 class="font-bold text-lg text-white">${item.title}</h4></div>
+                </div>
+            `).join('');
+            setupCarousel('popular-carousel', 'popular-prev', 'popular-next', popularHTML);
 
-    <!-- Card 2 -->
-    <div class="learning-card card-leaderboard">
-      <div class="card-header pink">Top Learners</div>
-      <ul>
-        <li>👩‍💻 Ananya Sharma</li>
-        <li>📊 Rohit Mehta</li>
-        <li>💡 Sneha Kapoor</li>
-        <li>🖥 Arjun Verma</li>
-      </ul>
-    </div>
+            // Reviews Data and Setup
+             const reviewItems = [
+                { name: 'Aniruddha Gade', course: 'DSA Specialization', text: 'The "Data Structures and Algorithms Specialization" is an absolute gem for anyone looking to master coding fundamentals.', avatar: 'AG' },
+                { name: 'Priya Patel', course: 'Full Stack MERN', text: 'Great experience! The projects gave me real-world coding confidence.', avatar: 'PP' },
+                { name: 'Rahul Kumar', course: 'Web Development', text: 'Nice content but sometimes the website loads slow — optional chaining would help!', avatar: 'RK' },
+                { name: 'Sneha Singh', course: 'Full Stack MERN', text: 'The mentors are super helpful and the content is really engaging.', avatar: 'SS' }
+            ];
+             const reviewsHTML = reviewItems.map(item => `
+                <div class="carousel-item flex-shrink-0 w-96 bg-slate-800 rounded-lg shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white mr-4">${item.avatar}</div>
+                        <div>
+                            <h4 class="font-bold text-white">${item.name}</h4>
+                            <p class="text-sm text-slate-400">${item.course}</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 mb-4">“${item.text}”</p>
+                    <div class="text-yellow-400">⭐⭐⭐⭐⭐</div>
+                </div>
+            `).join('');
+            setupCarousel('reviews-carousel', 'reviews-prev', 'reviews-next', reviewsHTML);
 
-    <!-- Card 3 -->
-    <div class="learning-card card-calendar">
-      <div class="card-header yellow">Upcoming Schedule</div>
-      <img src="cal.jpg" alt="Calendar" />
-    </div>
-  </div>
-</section>
+        });
+    </script>
 
-
-
-<section class="reviews-section">
-  <h2>Reviews from other learners ✍️</h2>
-  <div class="reviews-slider" id="reviewsSlider">
-    
-    <!-- Review 1 -->
-    <div class="review-card">
-      <div class="review-header">
-        <div class="review-avatar">AG</div>
-        <div class="review-info">
-          <h4>Aniruddha Gade</h4>
-          <span>DSA Specialization</span>
-        </div>
-      </div>
-      <p class="review-text">
-        “The 'Data Structures and Algorithms Specialization' is an absolute gem for anyone looking to master coding fundamentals.”
-      </p>
-      <div class="review-rating">⭐⭐⭐⭐⭐</div>
-    </div>
-
-    <!-- Review 2 -->
-    <div class="review-card">
-      <div class="review-header">
-        <div class="review-avatar">DP</div>
-        <div class="review-info">
-          <h4>Dgfh Patel</h4>
-          <span>Full Stack MERN</span>
-        </div>
-      </div>
-      <p class="review-text">
-        “Great experience! The projects gave me real-world coding confidence.”
-      </p>
-      <div class="review-rating">⭐⭐⭐⭐⭐</div>
-    </div>
-
-    <!-- Review 3 -->
-    <div class="review-card">
-      <div class="review-header">
-        <div class="review-avatar">AA</div>
-        <div class="review-info">
-          <h4>Aldkf Alskdjf</h4>
-          <span>Web Development</span>
-        </div>
-      </div>
-      <p class="review-text">
-        “Nice content but sometimes the website loads slow — optional chaining would help!”
-      </p>
-      <div class="review-rating">⭐⭐⭐⭐⭐</div>
-    </div>
-
-    <!-- Review 4 -->
-    <div class="review-card">
-      <div class="review-header">
-        <div class="review-avatar">RK</div>
-        <div class="review-info">
-          <h4>Rahul Kumar</h4>
-          <span>Full Stack MERN</span>
-        </div>
-      </div>
-      <p class="review-text">
-        “The mentors are super helpful and the content is really engaging.”
-      </p>
-      <div class="review-rating">⭐⭐⭐⭐⭐</div>
-    </div>
-
-  </div>
-</section>
+</body>
+</html>
 
 
-<!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-col">
-        <h4>Subjects</h4>
-        <ul>
-          <li><a href="#">Web Development</a></li>
-          <li><a href="#">Data Science</a></li>
-          <li><a href="#">AI & ML</a></li>
-          <li><a href="#">Cybersecurity</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Languages</h4>
-        <ul>
-          <li><a href="#">Python</a></li>
-          <li><a href="#">JavaScript</a></li>
-          <li><a href="#">C++</a></li>
-          <li><a href="#">Java</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Career</h4>
-        <ul>
-          <li><a href="#">Interview Prep</a></li>
-          <li><a href="#">Resume Building</a></li>
-          <li><a href="#">Job Assistance</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Blog</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Follow Us</h4>
-        <div class="social-icons">
-          <a href="#">🌐</a>
-          <a href="#">🐦</a>
-          <a href="#">▶️</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>Made with ❤️ for Learning • © 2025 EdTech Platform</p>
-    </div>
-  </footer>
 
