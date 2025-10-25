@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Course Content - Ed Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000814;
+            color: #CBD5E1;
+        }
+        /* Gradient text */
+        .gradient-text-blue {
+            background: linear-gradient(to right, #00B4DB, #0083B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+         .gradient-text-orange-red {
+            background: linear-gradient(to right, #f47b20, #e03a3e); /* Orange to Red */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+             opacity: 1;
+             transform: translateY(0);
+        }
+        .scroll-to-top {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        /* Sidebar active link style */
+        .sidebar-link.active {
+            background-color: #162136;
+            color: #FBBF24; /* Yellow */
+            font-weight: 600;
+        }
+        /* Content transition */
+        .content-section {
+            display: none; /* Initially hide all content sections */
+             opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .content-section.active {
+            display: block; /* Show the active one */
+            opacity: 1;
+        }
+         /* Simple Quiz Styles */
+        .quiz-option {
+            transition: background-color 0.2s ease;
+        }
+         .quiz-option:hover {
+            background-color: #1f2e4d;
+         }
+         .quiz-option.selected {
+            background-color: #3b82f6; /* Blue for selected */
+            color: white;
+            border-color: #3b82f6;
+         }
+          .quiz-option.correct {
+            background-color: #10B981; /* Green for correct */
+            color: white;
+            border-color: #10B981;
+         }
+           .quiz-option.incorrect {
+            background-color: #EF4444; /* Red for incorrect */
+            color: white;
+            border-color: #EF4444;
+         }
+         /* Aspect Ratio for Videos */
+         .aspect-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #162136; /* Placeholder bg */
+            border-radius: 0.375rem; /* rounded */
+         }
+         .aspect-video iframe {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             border: 0;
+         }
+         /* Add padding to group to bridge the gap */
+         .group {
+            padding-bottom: 0.5rem; /* Adjust as needed */
+            margin-bottom: -0.5rem; /* Counteract the padding */
+         }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 sticky top-0 z-50 shadow-md shadow-slate-800 backdrop-blur-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Ed Tech</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Home</a>
+                <!-- Catalog Dropdown -->
+                <div class="relative group">
+                    <button class="text-yellow-400 transition duration-300 flex items-center"> <!-- Highlight Catalog -->
+                        Catalog
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Removed mt-2 to eliminate the gap -->
+                    <div class="absolute hidden group-hover:block bg-white text-black rounded-md shadow-lg py-2 w-48 z-10">
+                        <a href="webdev.html" class="block px-4 py-2 hover:bg-gray-200">Web Development</a>
+                        <a href="datascience.html" class="block px-4 py-2 hover:bg-gray-200">Data Science</a>
+                        <a href="cpp.html" class="block px-4 py-2 hover:bg-gray-200">C++</a>
+                        <a href="python.html" class="block px-4 py-2 hover:bg-gray-200">Python</a>
+                        <a href="java.html" class="block px-4 py-2 bg-gray-100 font-semibold">Java</a> <!-- Highlight current page -->
+                    </div>
+                </div>
+                <a href="about.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">About</a>
+                <a href="contact.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Contact</a>
+            </div>
+            <!-- Logged In User Indicator (Example) -->
+            <div class="hidden md:flex items-center space-x-4">
+                 <span class="text-slate-300">Welcome, User!</span> <!-- Placeholder -->
+                 <a href="index.html" class="text-sm text-slate-400 hover:text-yellow-400 transition">Logout</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+             <a href="index.html" class="block text-slate-300 hover:text-yellow-400 py-2">Home</a>
+             <a href="#" class="block text-yellow-400 py-2">Catalog</a>
+             <a href="about.html" class="block text-slate-300 hover:text-yellow-400 py-2">About</a>
+             <a href="contact.html" class="block text-slate-300 hover:text-yellow-400 py-2">Contact</a>
+             <div class="mt-4 pt-4 border-t border-slate-700">
+                <span class="block text-slate-300 py-2">Welcome, User!</span> <!-- Placeholder -->
+                <a href="index.html" class="w-full text-left text-sm text-slate-400 hover:text-yellow-400 transition py-2">Logout</a>
+             </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area with Sidebar -->
+    <div class="container mx-auto px-6 py-12 lg:py-16 flex flex-col md:flex-row gap-8 lg:gap-12">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-1/4 lg:w-1/5 bg-[#0c1322] p-6 rounded-lg self-start md:sticky md:top-24 fade-in">
+            <h2 class="text-xl font-bold text-white mb-6">Java Modules</h2>
+            <nav id="course-nav" class="space-y-1 text-sm">
+                <!-- Module 1 Links: Basics -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 1: Basics</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-intro">1.1 Intro & Setup (JDK/IDE)</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-syntax">1.2 Basic Syntax & Structure</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-vars-types">1.3 Variables & Data Types</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-operators">1.4 Operators</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-io">1.5 Input/Output (Scanner)</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-quiz">Quiz 1</a>
+
+                 <!-- Module 2 Links: Control Flow -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 2: Control Flow</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-conditionals">2.1 Conditional Statements</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-loops">2.2 Loops</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-methods">2.3 Methods</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-quiz">Quiz 2</a>
+
+                 <!-- Module 3 Links: OOP Part 1 -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 3: OOP Part 1</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-oop-intro">3.1 OOP Concepts</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-classes">3.2 Classes & Objects</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-constructors">3.3 Constructors</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-encapsulation">3.4 Encapsulation</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-quiz">Quiz 3</a>
+
+                 <!-- Module 4 Links: OOP Part 2 -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 4: OOP Part 2</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-inheritance">4.1 Inheritance</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-polymorphism">4.2 Polymorphism</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-abstraction">4.3 Abstraction</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-interfaces">4.4 Interfaces</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-quiz">Quiz 4</a>
+
+                 <!-- Module 5 Links: Data Structures & Collections -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 5: Collections</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-arrays">5.1 Arrays</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-collections-intro">5.2 Collections Framework</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-list">5.3 ArrayList & LinkedList</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-set-map">5.4 HashSet & HashMap</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-quiz">Quiz 5</a>
+
+                 <!-- Module 6 Links: Exceptions & Files -->
+                 <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 6: Exceptions & Files</h3>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-exceptions">6.1 Exception Handling</a>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-fileio">6.2 File I/O Streams</a>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-quiz">Quiz 6</a>
+
+                 <!-- Module 7 Links: Project -->
+                 <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 7: Project</h3>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m7-project">Final Project</a>
+
+            </nav>
+        </aside>
+
+        <!-- Main Content Display -->
+        <main class="w-full md:w-3/4 lg:w-4/5 fade-in">
+            <!-- Content Sections -->
+            <div id="content-display">
+
+                <!-- Default Welcome Message -->
+                 <div id="content-default" class="content-section active bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h1 class="text-3xl font-bold text-white mb-4">Welcome to the Java Programming Course!</h1>
+                    <p class="text-lg text-slate-300">Select a module from the sidebar to begin your journey into Java. You'll find video lectures, comprehensive study materials, and quizzes to reinforce your learning.</p>
+                </div>
+
+                <!-- Module 1 Content -->
+                <div id="content-m1-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.1 Introduction & Setup (JDK/IDE)</h2>
+                    <p class="mb-4 text-slate-300">Understand Java's platform independence (Write Once, Run Anywhere) and set up the Java Development Kit (JDK) and an Integrated Development Environment (IDE) like IntelliJ IDEA or Eclipse.</p>
+                    <div class="aspect-video mb-6">
+                        <!-- Using Kunal Kushwaha's Java Playlist -->
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=1" title="Java Introduction & Setup by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://www.w3schools.com/java/java_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Introduction</a></li>
+                        <li><a href="https://www.w3schools.com/java/java_getstarted.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Get Started (Setup)</a></li>
+                        <li><a href="https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html" target="_blank" class="text-yellow-400 hover:underline">Oracle JDK Installation Overview</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-syntax" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.2 Basic Syntax & Structure</h2>
+                    <p class="mb-4 text-slate-300">Learn the basic structure of a Java program (`public static void main`), comments, and statements.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=2" title="Java First Program by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_syntax.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Syntax</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_comments.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Comments</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/getStarted/application/index.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: "Hello World!" Application</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-vars-types" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.3 Variables & Data Types</h2>
+                    <p class="mb-4 text-slate-300">Learn about Java's primitive data types (int, float, double, boolean, char, etc.) and reference types (like String), and how to declare variables.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=3" title="Java Primitive Data Types by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_variables.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Variables</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_data_types.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Data Types</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Primitive Data Types</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-operators" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.4 Operators</h2>
+                    <p class="mb-4 text-slate-300">Understand arithmetic, relational, logical, assignment, and other operators in Java.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=6" title="Java Operators by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_operators.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Operators</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Operators</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-io" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.5 Input/Output (Scanner)</h2>
+                    <p class="mb-4 text-slate-300">Learn how to get basic input from the user using the `Scanner` class and display output using `System.out.println()`.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=4" title="Java Input & Output by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_user_input.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java User Input (Scanner)</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/essential/io/cl.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Command-Line I/O</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m1-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-6">Quiz 1: Java Basics</h2>
+                    <form id="quiz-1">
+                        <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">1. What is the entry point method for a standard Java application?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="a" class="mr-2 accent-yellow-400"> `start()`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="b" class="mr-2 accent-yellow-400"> `run()`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="c" class="mr-2 accent-yellow-400"> `public static void main(String[] args)`</label>
+                            </div>
+                            <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                         <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">2. Which keyword is used to declare a variable that cannot be reassigned?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="a" class="mr-2 accent-yellow-400"> `static`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="b" class="mr-2 accent-yellow-400"> `const`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="c" class="mr-2 accent-yellow-400"> `final`</label>
+                            </div>
+                             <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                        <button type="submit" class="bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition duration-300">Submit Quiz</button>
+                        <p id="quiz-1-result" class="mt-4 font-semibold hidden"></p>
+                    </form>
+                </div>
+
+                 <!-- Module 2 Content -->
+                <div id="content-m2-conditionals" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.1 Conditional Statements</h2>
+                    <p class="mb-4 text-slate-300">Learn to control program execution flow based on conditions using `if`, `else if`, `else`, and `switch` statements.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=7" title="Java Conditionals and Loops by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_conditions.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java If...Else</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_switch.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Switch</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/if.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: If-Else Statement</a></li>
+                    </ul>
+                </div>
+                <div id="content-m2-loops" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.2 Loops</h2>
+                    <p class="mb-4 text-slate-300">Learn how to repeat blocks of code using `for`, `while`, and `do-while` loops, including enhanced for loops.</p>
+                     <div class="aspect-video mb-6">
+                        <!-- Re-use Kunal's video covering loops -->
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=7" title="Java Conditionals and Loops by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_while_loop.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java While Loop</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_for_loop.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java For Loop</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/for.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: For Statement</a></li>
+                    </ul>
+                </div>
+                <div id="content-m2-methods" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.3 Methods</h2>
+                    <p class="mb-4 text-slate-300">Learn how to define and call methods (functions in Java) to organize code, pass parameters, and return values.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=10" title="Java Methods by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_methods.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Methods</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_method_params.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Method Parameters</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Defining Methods</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m2-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 2: Control Flow & Methods</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 2 form here later -->
+                 </div>
+
+                 <!-- Module 3 Content: OOP Part 1 -->
+                 <div id="content-m3-oop-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.1 OOP Concepts</h2>
+                    <p class="mb-4 text-slate-300">Introduction to the core principles of Object-Oriented Programming: Encapsulation, Abstraction, Inheritance, and Polymorphism in the context of Java.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=19" title="Java OOP Introduction by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_oop.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java OOP Intro</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/concepts/index.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Object-Oriented Programming Concepts</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-classes" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.2 Classes & Objects</h2>
+                    <p class="mb-4 text-slate-300">Learn how to define classes (blueprints) and create objects (instances) from those classes in Java.</p>
+                     <div class="aspect-video mb-6">
+                        <!-- Reuse Kunal's OOP intro video which covers classes -->
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=19" title="Java OOP (Classes/Objects) by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_classes.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Classes/Objects</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Classes</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/javaOO/objects.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Objects</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-constructors" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.3 Constructors</h2>
+                    <p class="mb-4 text-slate-300">Understand constructors, special methods used to initialize newly created objects.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=20" title="Java Constructors by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_constructors.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Constructors</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/javaOO/constructors.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Providing Constructors</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-encapsulation" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.4 Encapsulation</h2>
+                    <p class="mb-4 text-slate-300">Learn how to bundle data (variables) and methods within a class and control access using getters and setters.</p>
+                     <div class="aspect-video mb-6">
+                        <!-- Use Telusko's video for Encapsulation -->
+                        <iframe src="https://www.youtube.com/embed/Me6goJXvi3c" title="Java Encapsulation by Telusko" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_encapsulation.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Encapsulation</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Controlling Access</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 3: OOP Part 1</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 3 form here later -->
+                 </div>
+
+                 <!-- Module 4 Content: OOP Part 2 -->
+                 <div id="content-m4-inheritance" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.1 Inheritance</h2>
+                    <p class="mb-4 text-slate-300">Understand how classes can inherit attributes and methods from other classes using `extends`.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=22" title="Java Inheritance by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_inheritance.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Inheritance</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Inheritance</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-polymorphism" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.2 Polymorphism</h2>
+                    <p class="mb-4 text-slate-300">Learn how objects can take on many forms, focusing on method overriding.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=23" title="Java Polymorphism by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_polymorphism.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Polymorphism</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/IandI/polymorphism.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Polymorphism</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-abstraction" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.3 Abstraction</h2>
+                    <p class="mb-4 text-slate-300">Understand abstraction using abstract classes and methods to hide implementation details.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=25" title="Java Abstract Classes & Methods by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_abstract.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Abstraction</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/IandI/abstract.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Abstract Methods and Classes</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-interfaces" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.4 Interfaces</h2>
+                    <p class="mb-4 text-slate-300">Learn about interfaces as contracts for classes, defining methods that implementing classes must provide.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=26" title="Java Interfaces by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_interface.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Interfaces</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Interfaces</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 4: OOP Part 2</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 4 form here later -->
+                 </div>
+
+                 <!-- Module 5 Content: Collections -->
+                 <div id="content-m5-arrays" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.1 Arrays</h2>
+                    <p class="mb-4 text-slate-300">Review Java arrays for storing fixed-size sequences of elements.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=13" title="Java Arrays by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_arrays.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Arrays</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Arrays</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-collections-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.2 Collections Framework</h2>
+                    <p class="mb-4 text-slate-300">Get an overview of the Java Collections Framework for managing groups of objects more dynamically than arrays.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=36" title="Java Collections Framework by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://docs.oracle.com/javase/tutorial/collections/index.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Collections Trail</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_collections.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Collections (Overview)</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-list" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.3 ArrayList & LinkedList</h2>
+                    <p class="mb-4 text-slate-300">Learn about two common List implementations: `ArrayList` (dynamic array) and `LinkedList` (doubly-linked list).</p>
+                     <div class="aspect-video mb-6">
+                        <!-- Reusing Kunal's Collections video -->
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=36" title="Java Collections (Lists) by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_arraylist.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java ArrayList</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_linkedlist.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java LinkedList</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/collections/interfaces/list.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: The List Interface</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-set-map" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.4 HashSet & HashMap</h2>
+                    <p class="mb-4 text-slate-300">Learn about `HashSet` for storing unique elements and `HashMap` for storing key-value pairs.</p>
+                     <div class="aspect-video mb-6">
+                        <!-- Reusing Kunal's Collections video -->
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ&index=36" title="Java Collections (Sets/Maps) by Kunal Kushwaha" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_hashset.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java HashSet</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_hashmap.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java HashMap</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/collections/interfaces/set.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: The Set Interface</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/collections/interfaces/map.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: The Map Interface</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 5: Collections</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 5 form here later -->
+                 </div>
+
+                 <!-- Module 6 Content: Exceptions & Files -->
+                  <div id="content-m6-exceptions" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">6.1 Exception Handling</h2>
+                    <p class="mb-4 text-slate-300">Learn how to handle runtime errors using `try`, `catch`, `finally`, `throw`, and `throws`.</p>
+                     <div class="aspect-video mb-6">
+                        <!-- Use Telusko's video for Exceptions -->
+                         <iframe src="https://www.youtube.com/embed/Wqac9kNUHrI" title="Java Exception Handling by Telusko" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_exceptions.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Try...Catch</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/index.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: Exceptions Trail</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m6-fileio" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">6.2 File I/O Streams</h2>
+                    <p class="mb-4 text-slate-300">Learn how to read from and write to files using Java's byte streams and character streams.</p>
+                     <div class="aspect-video mb-6">
+                        <!-- Use Telusko's video for File Handling -->
+                        <iframe src="https://www.youtube.com/embed/P0z_vFK4P6Y" title="Java File Handling by Telusko" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/java/java_files.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Java Files</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_files_read.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Read Files</a></li>
+                         <li><a href="https://www.w3schools.com/java/java_files_create.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Write/Create Files</a></li>
+                         <li><a href="https://docs.oracle.com/javase/tutorial/essential/io/streams.html" target="_blank" class="text-yellow-400 hover:underline">Oracle Java Tutorials: I/O Streams</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m6-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 6: Exceptions & Files</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 6 form here later -->
+                 </div>
+
+                 <!-- Module 7: Project -->
+                 <div id="content-m7-project" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">Final Project</h2>
+                     <p class="text-slate-300 mb-4">Apply the Java concepts you've learned to build a functional application. This project will solidify your understanding and showcase your skills.</p>
+                      <h3 class="text-xl font-semibold text-white mb-3">Project Ideas (Examples)</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li>Simple Bank Account Management System</li>
+                          <li>Contact Management Application</li>
+                          <li>Basic Library Management System</li>
+                          <li>Console-Based Tic-Tac-Toe Game</li>
+                          <li>Student Grade Calculator</li>
+                      </ul>
+                     <p class="mt-6 text-slate-300">You will receive detailed requirements and guidance for the final project submission.</p>
+                 </div>
+
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#000814] border-t border-slate-800 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-xl font-bold text-white">Ed Tech</h4>
+                    <p class="text-slate-400 mt-2">Empowering the future of learning.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Subjects</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="webdev.html" class="hover:text-yellow-400">Web Development</a></li>
+                        <li><a href="datascience.html" class="hover:text-yellow-400">Data Science</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">AI & ML</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Languages</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="python.html" class="hover:text-yellow-400">Python</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">JavaScript</a></li>
+                        <li><a href="cpp.html" class="hover:text-yellow-400">C++</a></li>
+                        <li><a href="java.html" class="hover:text-yellow-400">Java</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Company</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="about.html" class="hover:text-yellow-400">About</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Careers</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Blog</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                       <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Twitter Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.76 2.81 1.91 3.58-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.35 0-.69-.02-1.03-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.38-.01-.57.84-.6 1.56-1.36 2.14-2.22z"></path></svg>
+                       </a>
+                        <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Facebook Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-5.5H9V9.5h2V7.41c0-2.09 1.29-3.25 3.23-3.25.92 0 1.7.07 1.93.1v2.12h-1.26c-1.03 0-1.23.49-1.23 1.2v1.42h2.36l-.31 2H14.73V17H11z"></path></svg>
+                       </a>
+                        <!-- Add more social icons as needed -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-800 pt-8 text-center text-slate-500">
+                <p>&copy; 2025 Ed Tech. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4 hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+             // Fade-in animation for initial load
+            const initialFaders = document.querySelectorAll('main.fade-in, aside.fade-in');
+            initialFaders.forEach(el => el.classList.add('visible'));
+
+
+            // Sidebar Navigation & Content Switching
+            const courseNav = document.getElementById('course-nav');
+            const contentDisplay = document.getElementById('content-display');
+            const contentSections = contentDisplay.querySelectorAll('.content-section');
+            const sidebarLinks = courseNav.querySelectorAll('.sidebar-link');
+
+            if (courseNav && contentDisplay) {
+                // Function to handle content switching
+                function switchContent(contentId) {
+                     if (!contentId) return;
+
+                     // Update active link style
+                    sidebarLinks.forEach(link => {
+                        if (link.getAttribute('data-content') === contentId) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+
+                     // Switch content section
+                    let foundContent = false;
+                    contentSections.forEach(section => {
+                        if (section.id === `content-${contentId}`) {
+                            section.classList.add('active');
+                            foundContent = true;
+                             // Trigger fade-in for the newly active section
+                             requestAnimationFrame(() => {
+                                section.classList.add('visible');
+                            });
+                        } else {
+                            section.classList.remove('active', 'visible');
+                        }
+                    });
+                     // Show default if no specific content found or on initial load with no hash
+                    const defaultContent = document.getElementById('content-default');
+                     if (!foundContent && defaultContent) {
+                         defaultContent.classList.add('active', 'visible');
+                         sidebarLinks.forEach(link => link.classList.remove('active')); // Clear active links
+                    } else if (defaultContent && foundContent) {
+                         defaultContent.classList.remove('active', 'visible');
+                     }
+                      // Scroll main content area to top smoothly
+                      window.scrollTo({ top: contentDisplay.offsetTop - 100, behavior: 'smooth' }); // Adjust offset if needed
+
+                }
+
+                // Event listener for sidebar clicks
+                courseNav.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetLink = event.target.closest('.sidebar-link');
+                    if (!targetLink) return;
+                    const contentId = targetLink.getAttribute('data-content');
+                    switchContent(contentId);
+                     // Update URL hash for bookmarking/linking (optional)
+                     // window.location.hash = contentId;
+                });
+
+                 // Initial content load based on URL hash (optional)
+                 // const initialHash = window.location.hash.substring(1);
+                 // if (initialHash) {
+                 //    switchContent(initialHash);
+                 // } else {
+                 //    switchContent(null); // Show default
+                 // }
+                 // Show default content initially if no hash
+                  if (document.getElementById('content-default')) {
+                        document.getElementById('content-default').classList.add('active', 'visible');
+                  }
+
+            }
+
+
+            // Basic Quiz Functionality (Example for Quiz 1)
+            const quiz1Form = document.getElementById('quiz-1');
+            if (quiz1Form) {
+                 // Handle option selection style
+                quiz1Form.addEventListener('change', (event) => {
+                     if (event.target.type === 'radio') {
+                         const optionsContainer = event.target.closest('.quiz-options');
+                         optionsContainer.querySelectorAll('.quiz-option').forEach(label => {
+                             label.classList.remove('selected');
+                         });
+                         event.target.closest('.quiz-option').classList.add('selected');
+                     }
+                });
+
+                quiz1Form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const answers = { q1: 'c', q2: 'c' }; // Correct answers for Java Quiz 1
+                    let score = 0;
+                    const totalQuestions = Object.keys(answers).length;
+                    const formData = new FormData(quiz1Form);
+
+                    for (const [question, correctAnswer] of Object.entries(answers)) {
+                        const userAnswer = formData.get(question);
+                        const questionGroup = quiz1Form.querySelector(`input[name="${question}"]`).closest('.mb-6');
+                        const options = questionGroup.querySelectorAll('.quiz-option');
+                        const feedbackEl = questionGroup.querySelector('.quiz-feedback');
+
+                        options.forEach(label => {
+                             label.classList.remove('selected', 'correct', 'incorrect');
+                             const input = label.querySelector('input');
+                             if (input.value === correctAnswer) {
+                                 label.classList.add('correct'); // Highlight correct answer
+                             }
+                             if (input.value === userAnswer && userAnswer !== correctAnswer) {
+                                 label.classList.add('incorrect'); // Highlight wrong selected answer
+                             }
+                              input.disabled = true; // Disable after submission
+                        });
+
+                        if (userAnswer === correctAnswer) {
+                            score++;
+                             feedbackEl.textContent = 'Correct!';
+                             feedbackEl.style.color = '#10B981'; // Green
+                        } else if (userAnswer) {
+                            feedbackEl.textContent = `Incorrect. The correct answer was option ${correctAnswer.toUpperCase()}.`;
+                             feedbackEl.style.color = '#EF4444'; // Red
+                        } else {
+                             feedbackEl.textContent = 'You did not answer this question.';
+                             feedbackEl.style.color = '#FBBF24'; // Yellow
+                        }
+                         feedbackEl.classList.remove('hidden');
+                    }
+
+                    const resultEl = document.getElementById('quiz-1-result');
+                    resultEl.textContent = `Your Score: ${score} out of ${totalQuestions}`;
+                    resultEl.style.color = score / totalQuestions >= 0.6 ? '#34D399' : '#F87171'; // Green if >= 60%, else Red
+                    resultEl.classList.remove('hidden');
+
+                     quiz1Form.querySelector('button[type="submit"]').disabled = true; // Disable submit button
+                     quiz1Form.querySelector('button[type="submit"]').textContent = 'Submitted';
+                     quiz1Form.querySelector('button[type="submit"]').classList.add('opacity-50', 'cursor-not-allowed');
+                });
+            }
+             // Add similar logic for other quizzes if needed...
+
+
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                    } else {
+                        scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
+                    }
+                });
+
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
