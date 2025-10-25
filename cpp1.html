@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Course Content - Ed Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000814;
+            color: #CBD5E1;
+        }
+        /* Gradient text */
+        .gradient-text-blue {
+            background: linear-gradient(to right, #00B4DB, #0083B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .gradient-text-purple {
+            background: linear-gradient(to right, #DA22FF, #9733EE);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+             opacity: 1;
+             transform: translateY(0);
+        }
+        .scroll-to-top {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        /* Sidebar active link style */
+        .sidebar-link.active {
+            background-color: #162136;
+            color: #FBBF24; /* Yellow */
+            font-weight: 600;
+        }
+        /* Content transition */
+        .content-section {
+            display: none; /* Initially hide all content sections */
+             opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .content-section.active {
+            display: block; /* Show the active one */
+            opacity: 1;
+        }
+         /* Simple Quiz Styles */
+        .quiz-option {
+            transition: background-color 0.2s ease;
+        }
+         .quiz-option:hover {
+            background-color: #1f2e4d;
+         }
+         .quiz-option.selected {
+            background-color: #3b82f6; /* Blue for selected */
+            color: white;
+            border-color: #3b82f6;
+         }
+          .quiz-option.correct {
+            background-color: #10B981; /* Green for correct */
+            color: white;
+            border-color: #10B981;
+         }
+           .quiz-option.incorrect {
+            background-color: #EF4444; /* Red for incorrect */
+            color: white;
+            border-color: #EF4444;
+         }
+         /* Aspect Ratio for Videos */
+         .aspect-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #162136; /* Placeholder bg */
+            border-radius: 0.375rem; /* rounded */
+         }
+         .aspect-video iframe {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             border: 0;
+         }
+         /* Add padding to group to bridge the gap */
+         .group {
+            padding-bottom: 0.5rem; /* Adjust as needed */
+            margin-bottom: -0.5rem; /* Counteract the padding */
+         }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 sticky top-0 z-50 shadow-md shadow-slate-800 backdrop-blur-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Ed Tech</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Home</a>
+                <!-- Catalog Dropdown -->
+                <div class="relative group">
+                    <button class="text-yellow-400 transition duration-300 flex items-center"> <!-- Highlight Catalog -->
+                        Catalog
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Removed mt-2 to eliminate the gap -->
+                    <div class="absolute hidden group-hover:block bg-white text-black rounded-md shadow-lg py-2 w-48 z-10">
+                        <a href="webdev.html" class="block px-4 py-2 hover:bg-gray-200">Web Development</a>
+                        <a href="datascience.html" class="block px-4 py-2 hover:bg-gray-200">Data Science</a>
+                        <a href="cpp.html" class="block px-4 py-2 bg-gray-100 font-semibold">C++</a> <!-- Highlight current page -->
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Python</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Java</a>
+                    </div>
+                </div>
+                <a href="about.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">About</a>
+                <a href="contact.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Contact</a>
+            </div>
+            <!-- Logged In User Indicator (Example) -->
+            <div class="hidden md:flex items-center space-x-4">
+                 <span class="text-slate-300">Welcome, User!</span> <!-- Placeholder -->
+                 <a href="index.html" class="text-sm text-slate-400 hover:text-yellow-400 transition">Logout</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+             <a href="index.html" class="block text-slate-300 hover:text-yellow-400 py-2">Home</a>
+             <a href="#" class="block text-yellow-400 py-2">Catalog</a>
+             <a href="about.html" class="block text-slate-300 hover:text-yellow-400 py-2">About</a>
+             <a href="contact.html" class="block text-slate-300 hover:text-yellow-400 py-2">Contact</a>
+             <div class="mt-4 pt-4 border-t border-slate-700">
+                <span class="block text-slate-300 py-2">Welcome, User!</span> <!-- Placeholder -->
+                <a href="index.html" class="w-full text-left text-sm text-slate-400 hover:text-yellow-400 transition py-2">Logout</a>
+             </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area with Sidebar -->
+    <div class="container mx-auto px-6 py-12 lg:py-16 flex flex-col md:flex-row gap-8 lg:gap-12">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-1/4 lg:w-1/5 bg-[#0c1322] p-6 rounded-lg self-start md:sticky md:top-24 fade-in">
+            <h2 class="text-xl font-bold text-white mb-6">C++ Modules</h2>
+            <nav id="course-nav" class="space-y-1 text-sm">
+                <!-- Module 1 Links: Basics -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 1: Basics</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-intro">1.1 Introduction & Setup</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-syntax">1.2 Basic Syntax</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-vars-types">1.3 Variables & Data Types</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-operators">1.4 Operators</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-io">1.5 Input/Output</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-quiz">Quiz 1</a>
+
+                 <!-- Module 2 Links: Control Flow -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 2: Control Flow</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-conditionals">2.1 Conditional Statements</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-loops">2.2 Loops</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-functions">2.3 Functions</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-quiz">Quiz 2</a>
+
+                 <!-- Module 3 Links: Pointers, Arrays, Strings -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 3: Pointers & Arrays</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-arrays">3.1 Arrays</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-strings">3.2 Strings</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-pointers">3.3 Pointers</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-references">3.4 References</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-quiz">Quiz 3</a>
+
+                 <!-- Module 4 Links: OOP -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 4: OOP</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-classes">4.1 Classes & Objects</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-constructors">4.2 Constructors/Destructors</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-inheritance">4.3 Inheritance</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-polymorphism">4.4 Polymorphism</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-quiz">Quiz 4</a>
+
+                 <!-- Module 5 Links: Advanced Topics -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 5: Advanced</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-templates">5.1 Templates</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-exceptions">5.2 Exception Handling</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-fileio">5.3 File I/O</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-stl">5.4 Intro to STL</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-quiz">Quiz 5</a>
+
+                <!-- Module 6 Links: Project -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 6: Project</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-project">Final Project</a>
+
+            </nav>
+        </aside>
+
+        <!-- Main Content Display -->
+        <main class="w-full md:w-3/4 lg:w-4/5 fade-in">
+            <!-- Content Sections -->
+            <div id="content-display">
+
+                <!-- Default Welcome Message -->
+                 <div id="content-default" class="content-section active bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h1 class="text-3xl font-bold text-white mb-4">Welcome to the C++ Programming Course!</h1>
+                    <p class="text-lg text-slate-300">Select a module from the sidebar to begin your journey into C++. You'll find video lectures, comprehensive study materials, and quizzes to reinforce your learning.</p>
+                </div>
+
+                <!-- Module 1 Content -->
+                <div id="content-m1-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.1 Introduction & Setup</h2>
+                    <p class="mb-4 text-slate-300">Understand what C++ is used for and set up your development environment (compiler and IDE/editor).</p>
+                    <div class="aspect-video mb-6">
+                        <!-- CodeWithHarry C++ Playlist starts here -->
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=1" title="C++ Introduction by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://www.w3schools.com/cpp/cpp_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Introduction</a></li>
+                        <li><a href="https://www.w3schools.com/cpp/cpp_getstarted.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Get Started (Setup)</a></li>
+                        <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-c/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-syntax" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.2 Basic Syntax</h2>
+                    <p class="mb-4 text-slate-300">Learn the fundamental structure of a C++ program, including comments, headers, and the main function.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=2" title="C++ Basic Structure by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_syntax.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Syntax</a></li>
+                         <li><a href="https://www.w3schools.com/cpp/cpp_comments.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Comments</a></li>
+                          <li><a href="https://learncpp.com/cpp-tutorial/statements-and-the-structure-of-a-program/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Structure of a Program</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-vars-types" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.3 Variables & Data Types</h2>
+                    <p class="mb-4 text-slate-300">Learn about fundamental data types (int, float, double, char, bool, string) and how to declare and use variables.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=3" title="C++ Variables & Data Types by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_variables.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Variables</a></li>
+                         <li><a href="https://www.w3schools.com/cpp/cpp_data_types.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Data Types</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/fundamental-data-types/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Fundamental Data Types</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-operators" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.4 Operators</h2>
+                    <p class="mb-4 text-slate-300">Understand arithmetic, comparison, logical, assignment, and other operators in C++.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=6" title="C++ Operators by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_operators.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Operators</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-operators/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction to Operators</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-io" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.5 Input/Output</h2>
+                    <p class="mb-4 text-slate-300">Learn how to get input from the user (cin) and display output to the console (cout).</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=5" title="C++ Basic Input/Output by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_input.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ User Input</a></li>
+                          <li><a href="https://www.w3schools.com/cpp/cpp_output.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Output</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-iostream-cout-cin-and-endl/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction to iostream</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m1-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-6">Quiz 1: C++ Basics</h2>
+                    <form id="quiz-1">
+                        <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">1. Which header file is needed for basic input/output operations like `cout` and `cin`?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="a" class="mr-2 accent-yellow-400"> `<stdio.h>`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="b" class="mr-2 accent-yellow-400"> `<iostream>`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="c" class="mr-2 accent-yellow-400"> `<string>`</label>
+                            </div>
+                            <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                         <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">2. Which operator is used for outputting data to the console?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="a" class="mr-2 accent-yellow-400"> `>>` (Extraction)</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="b" class="mr-2 accent-yellow-400"> `<<` (Insertion)</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="c" class="mr-2 accent-yellow-400"> `->` (Arrow)</label>
+                            </div>
+                             <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                        <button type="submit" class="bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition duration-300">Submit Quiz</button>
+                        <p id="quiz-1-result" class="mt-4 font-semibold hidden"></p>
+                    </form>
+                </div>
+
+                 <!-- Module 2 Content -->
+                <div id="content-m2-conditionals" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.1 Conditional Statements</h2>
+                    <p class="mb-4 text-slate-300">Learn to control program flow based on conditions using `if`, `else if`, `else`, and `switch` statements.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=7" title="C++ Control Structures by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_conditions.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Conditions (if/else)</a></li>
+                         <li><a href="https://www.w3schools.com/cpp/cpp_switch.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Switch</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/if-statements-and-blocks/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: If statements</a></li>
+                    </ul>
+                </div>
+                <div id="content-m2-loops" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.2 Loops</h2>
+                    <p class="mb-4 text-slate-300">Learn how to repeat blocks of code using `for`, `while`, and `do-while` loops.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=10" title="C++ Loops by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_while_loop.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ While Loop</a></li>
+                         <li><a href="https://www.w3schools.com/cpp/cpp_for_loop.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ For Loop</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/while-statements/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: While statements</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/for-statements/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: For statements</a></li>
+                    </ul>
+                </div>
+                <div id="content-m2-functions" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.3 Functions</h2>
+                    <p class="mb-4 text-slate-300">Learn how to define and call functions to organize code, pass arguments, and return values.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=15" title="C++ Functions by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_functions.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Functions</a></li>
+                         <li><a href="https://www.w3schools.com/cpp/cpp_function_param.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Function Parameters</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-functions/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction to functions</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m2-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 2: Control Flow & Functions</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 2 form here later -->
+                 </div>
+
+                 <!-- Module 3 Content -->
+                 <div id="content-m3-arrays" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.1 Arrays</h2>
+                    <p class="mb-4 text-slate-300">Learn how to declare, initialize, and access elements in fixed-size arrays.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=13" title="C++ Arrays by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_arrays.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Arrays</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/arrays-part-i/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Arrays Part I</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-strings" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.2 Strings</h2>
+                    <p class="mb-4 text-slate-300">Learn how to work with C-style character arrays and the C++ `std::string` class.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=12" title="C++ Strings by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_strings.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Strings</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-stdstring/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction to std::string</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-pointers" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.3 Pointers</h2>
+                    <p class="mb-4 text-slate-300">Understand pointers, memory addresses, pointer arithmetic, and dynamic memory allocation.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=14" title="C++ Pointers by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_pointers.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Pointers</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-pointers/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction to Pointers</a></li>
+                          <li><a href="https://learncpp.com/cpp-tutorial/dynamic-memory-allocation-with-new-and-delete/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Dynamic Memory Allocation</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-references" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.4 References</h2>
+                    <p class="mb-4 text-slate-300">Learn about references as aliases for existing variables and their use cases, especially in function parameters.</p>
+                     <!-- Placeholder video -->
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/IOLH_jc2LHg" title="C++ References Explained by The Cherno" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_references.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ References</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/references/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: References</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 3: Pointers & Arrays</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 3 form here later -->
+                 </div>
+
+                 <!-- Module 4 Content: OOP -->
+                 <div id="content-m4-classes" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.1 Classes & Objects</h2>
+                    <p class="mb-4 text-slate-300">Learn the core concepts of Object-Oriented Programming: creating blueprints (classes) and instances (objects).</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=21" title="C++ OOP Introduction by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_oop.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ OOP</a></li>
+                         <li><a href="https://www.w3schools.com/cpp/cpp_classes.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Classes/Objects</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-object-oriented-programming/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction to OOP</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-constructors" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.2 Constructors & Destructors</h2>
+                    <p class="mb-4 text-slate-300">Understand special member functions for initializing objects (constructors) and cleaning up resources (destructors).</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=26" title="C++ Constructors by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         <!-- Maybe need a separate destructor video -->
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_constructors.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Constructors</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/constructors/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Constructors</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/destructors/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Destructors</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-inheritance" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.3 Inheritance</h2>
+                    <p class="mb-4 text-slate-300">Learn how to create new classes (derived classes) based on existing classes (base classes) to promote code reuse.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=31" title="C++ Inheritance by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_inheritance.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Inheritance</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/basic-inheritance-in-c/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Basic inheritance</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-polymorphism" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.4 Polymorphism</h2>
+                    <p class="mb-4 text-slate-300">Understand polymorphism ("many forms"), often achieved through virtual functions, allowing objects of different classes to be treated through a common interface.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=39" title="C++ Polymorphism by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_polymorphism.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Polymorphism</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/virtual-functions/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Virtual functions</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 4: OOP Concepts</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 4 form here later -->
+                 </div>
+
+                 <!-- Module 5 Content: Advanced -->
+                  <div id="content-m5-templates" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.1 Templates</h2>
+                    <p class="mb-4 text-slate-300">Learn about C++ templates to write generic functions and classes that can work with different data types.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=67" title="C++ Templates by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_templates.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Templates</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/function-templates/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Function Templates</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/class-templates/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Class Templates</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-exceptions" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.2 Exception Handling</h2>
+                    <p class="mb-4 text-slate-300">Learn how to handle runtime errors gracefully using `try`, `catch`, and `throw` blocks.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/W9m00TrP6wU" title="C++ Exception Handling by Apna College (Shradha Khapra)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_exceptions.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Exceptions</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/basic-exception-handling/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Basic Exception Handling</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-fileio" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.3 File I/O</h2>
+                    <p class="mb-4 text-slate-300">Learn how to read data from files and write data to files using C++ stream classes (`fstream`, `ifstream`, `ofstream`).</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=64" title="C++ File I/O by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_files.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ Files</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/basic-file-io/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Basic File I/O</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-stl" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.4 Introduction to STL</h2>
+                    <p class="mb-4 text-slate-300">Get an overview of the Standard Template Library (STL), focusing on common containers like `vector`, `map`, and algorithms.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agpFUAlPFe_VNSlXW5uE0YL&index=71" title="C++ STL by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/cpp/cpp_stl.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: C++ STL (Overview)</a></li>
+                         <li><a href="https://learncpp.com/cpp-tutorial/introduction-to-the-standard-template-library/" target="_blank" class="text-yellow-400 hover:underline">LearnCpp.com: Introduction to the STL</a></li>
+                          <li><a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank" class="text-yellow-400 hover:underline">cppreference: std::vector</a></li>
+                          <li><a href="https://en.cppreference.com/w/cpp/container/map" target="_blank" class="text-yellow-400 hover:underline">cppreference: std::map</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 5: Advanced Topics</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 5 form here later -->
+                 </div>
+
+                 <!-- Module 6: Project -->
+                 <div id="content-m6-project" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">Final Project</h2>
+                     <p class="text-slate-300 mb-4">Apply the C++ concepts you've learned to build a significant project. This is your opportunity to consolidate your knowledge and create something practical.</p>
+                      <h3 class="text-xl font-semibold text-white mb-3">Project Ideas (Examples)</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li>Simple Console-Based Game (e.g., Tic-Tac-Toe, Guess the Number)</li>
+                          <li>Basic Calculator Application</li>
+                          <li>Student Record Management System (using File I/O)</li>
+                          <li>Inventory Management System</li>
+                          <li>Library Book Management</li>
+                      </ul>
+                     <p class="mt-6 text-slate-300">You will receive detailed requirements and guidance for the final project submission.</p>
+                 </div>
+
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#000814] border-t border-slate-800 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-xl font-bold text-white">Ed Tech</h4>
+                    <p class="text-slate-400 mt-2">Empowering the future of learning.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Subjects</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="webdev.html" class="hover:text-yellow-400">Web Development</a></li>
+                        <li><a href="datascience.html" class="hover:text-yellow-400">Data Science</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">AI & ML</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Languages</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Python</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">JavaScript</a></li>
+                        <li><a href="cpp.html" class="hover:text-yellow-400">C++</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Java</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Company</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="about.html" class="hover:text-yellow-400">About</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Careers</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Blog</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                       <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Twitter Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.76 2.81 1.91 3.58-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.35 0-.69-.02-1.03-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.38-.01-.57.84-.6 1.56-1.36 2.14-2.22z"></path></svg>
+                       </a>
+                        <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Facebook Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-5.5H9V9.5h2V7.41c0-2.09 1.29-3.25 3.23-3.25.92 0 1.7.07 1.93.1v2.12h-1.26c-1.03 0-1.23.49-1.23 1.2v1.42h2.36l-.31 2H14.73V17H11z"></path></svg>
+                       </a>
+                        <!-- Add more social icons as needed -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-800 pt-8 text-center text-slate-500">
+                <p>&copy; 2025 Ed Tech. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4 hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+             // Fade-in animation for initial load
+            const initialFaders = document.querySelectorAll('main.fade-in, aside.fade-in');
+            initialFaders.forEach(el => el.classList.add('visible'));
+
+
+            // Sidebar Navigation & Content Switching
+            const courseNav = document.getElementById('course-nav');
+            const contentDisplay = document.getElementById('content-display');
+            const contentSections = contentDisplay.querySelectorAll('.content-section');
+            const sidebarLinks = courseNav.querySelectorAll('.sidebar-link');
+
+            if (courseNav && contentDisplay) {
+                // Function to handle content switching
+                function switchContent(contentId) {
+                     if (!contentId) return;
+
+                     // Update active link style
+                    sidebarLinks.forEach(link => {
+                        if (link.getAttribute('data-content') === contentId) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+
+                     // Switch content section
+                    let foundContent = false;
+                    contentSections.forEach(section => {
+                        if (section.id === `content-${contentId}`) {
+                            section.classList.add('active');
+                            foundContent = true;
+                             // Trigger fade-in for the newly active section
+                             requestAnimationFrame(() => {
+                                section.classList.add('visible');
+                            });
+                        } else {
+                            section.classList.remove('active', 'visible');
+                        }
+                    });
+                     // Show default if no specific content found or on initial load with no hash
+                    const defaultContent = document.getElementById('content-default');
+                     if (!foundContent && defaultContent) {
+                         defaultContent.classList.add('active', 'visible');
+                         sidebarLinks.forEach(link => link.classList.remove('active')); // Clear active links
+                    } else if (defaultContent && foundContent) {
+                         defaultContent.classList.remove('active', 'visible');
+                     }
+                      // Scroll main content area to top smoothly
+                      window.scrollTo({ top: contentDisplay.offsetTop - 100, behavior: 'smooth' }); // Adjust offset if needed
+
+                }
+
+                // Event listener for sidebar clicks
+                courseNav.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetLink = event.target.closest('.sidebar-link');
+                    if (!targetLink) return;
+                    const contentId = targetLink.getAttribute('data-content');
+                    switchContent(contentId);
+                     // Update URL hash for bookmarking/linking (optional)
+                     // window.location.hash = contentId;
+                });
+
+                 // Initial content load based on URL hash (optional)
+                 // const initialHash = window.location.hash.substring(1);
+                 // if (initialHash) {
+                 //    switchContent(initialHash);
+                 // } else {
+                 //    switchContent(null); // Show default
+                 // }
+                 // Show default content initially if no hash
+                  if (document.getElementById('content-default')) {
+                        document.getElementById('content-default').classList.add('active', 'visible');
+                  }
+
+            }
+
+
+            // Basic Quiz Functionality (Example for Quiz 1)
+            const quiz1Form = document.getElementById('quiz-1');
+            if (quiz1Form) {
+                 // Handle option selection style
+                quiz1Form.addEventListener('change', (event) => {
+                     if (event.target.type === 'radio') {
+                         const optionsContainer = event.target.closest('.quiz-options');
+                         optionsContainer.querySelectorAll('.quiz-option').forEach(label => {
+                             label.classList.remove('selected');
+                         });
+                         event.target.closest('.quiz-option').classList.add('selected');
+                     }
+                });
+
+                quiz1Form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const answers = { q1: 'b', q2: 'b' }; // Correct answers for C++ Quiz 1
+                    let score = 0;
+                    const totalQuestions = Object.keys(answers).length;
+                    const formData = new FormData(quiz1Form);
+
+                    for (const [question, correctAnswer] of Object.entries(answers)) {
+                        const userAnswer = formData.get(question);
+                        const questionGroup = quiz1Form.querySelector(`input[name="${question}"]`).closest('.mb-6');
+                        const options = questionGroup.querySelectorAll('.quiz-option');
+                        const feedbackEl = questionGroup.querySelector('.quiz-feedback');
+
+                        options.forEach(label => {
+                             label.classList.remove('selected', 'correct', 'incorrect');
+                             const input = label.querySelector('input');
+                             if (input.value === correctAnswer) {
+                                 label.classList.add('correct'); // Highlight correct answer
+                             }
+                             if (input.value === userAnswer && userAnswer !== correctAnswer) {
+                                 label.classList.add('incorrect'); // Highlight wrong selected answer
+                             }
+                              input.disabled = true; // Disable after submission
+                        });
+
+                        if (userAnswer === correctAnswer) {
+                            score++;
+                             feedbackEl.textContent = 'Correct!';
+                             feedbackEl.style.color = '#10B981'; // Green
+                        } else if (userAnswer) {
+                            feedbackEl.textContent = `Incorrect. The correct answer was option ${correctAnswer.toUpperCase()}.`;
+                             feedbackEl.style.color = '#EF4444'; // Red
+                        } else {
+                             feedbackEl.textContent = 'You did not answer this question.';
+                             feedbackEl.style.color = '#FBBF24'; // Yellow
+                        }
+                         feedbackEl.classList.remove('hidden');
+                    }
+
+                    const resultEl = document.getElementById('quiz-1-result');
+                    resultEl.textContent = `Your Score: ${score} out of ${totalQuestions}`;
+                    resultEl.style.color = score / totalQuestions >= 0.6 ? '#34D399' : '#F87171'; // Green if >= 60%, else Red
+                    resultEl.classList.remove('hidden');
+
+                     quiz1Form.querySelector('button[type="submit"]').disabled = true; // Disable submit button
+                     quiz1Form.querySelector('button[type="submit"]').textContent = 'Submitted';
+                     quiz1Form.querySelector('button[type="submit"]').classList.add('opacity-50', 'cursor-not-allowed');
+                });
+            }
+             // Add similar logic for other quizzes if needed...
+
+
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                    } else {
+                        scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
+                    }
+                });
+
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
