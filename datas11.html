@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Course Content - Ed Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000814;
+            color: #CBD5E1;
+        }
+        /* Gradient text */
+        .gradient-text-blue {
+            background: linear-gradient(to right, #00B4DB, #0083B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .gradient-text-green {
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+             opacity: 1;
+             transform: translateY(0);
+        }
+        .scroll-to-top {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        /* Sidebar active link style */
+        .sidebar-link.active {
+            background-color: #162136;
+            color: #FBBF24; /* Yellow */
+            font-weight: 600;
+        }
+        /* Content transition */
+        .content-section {
+            display: none; /* Initially hide all content sections */
+             opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .content-section.active {
+            display: block; /* Show the active one */
+            opacity: 1;
+        }
+         /* Simple Quiz Styles */
+        .quiz-option {
+            transition: background-color 0.2s ease;
+        }
+         .quiz-option:hover {
+            background-color: #1f2e4d;
+         }
+         .quiz-option.selected {
+            background-color: #3b82f6; /* Blue for selected */
+            color: white;
+            border-color: #3b82f6;
+         }
+          .quiz-option.correct {
+            background-color: #10B981; /* Green for correct */
+            color: white;
+            border-color: #10B981;
+         }
+           .quiz-option.incorrect {
+            background-color: #EF4444; /* Red for incorrect */
+            color: white;
+            border-color: #EF4444;
+         }
+         /* Aspect Ratio for Videos */
+         .aspect-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #162136; /* Placeholder bg */
+            border-radius: 0.375rem; /* rounded */
+         }
+         .aspect-video iframe {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             border: 0;
+         }
+         /* Add padding to group to bridge the gap */
+         .group {
+            padding-bottom: 0.5rem; /* Adjust as needed */
+            margin-bottom: -0.5rem; /* Counteract the padding */
+         }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 sticky top-0 z-50 shadow-md shadow-slate-800 backdrop-blur-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Ed Tech</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Home</a>
+                <!-- Catalog Dropdown -->
+                <div class="relative group">
+                    <button class="text-yellow-400 transition duration-300 flex items-center"> <!-- Highlight Catalog -->
+                        Catalog
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Removed mt-2 to eliminate the gap -->
+                    <div class="absolute hidden group-hover:block bg-white text-black rounded-md shadow-lg py-2 w-48 z-10">
+                        <a href="webdev.html" class="block px-4 py-2 hover:bg-gray-200">Web Development</a>
+                        <a href="datascience.html" class="block px-4 py-2 bg-gray-100 font-semibold">Data Science</a> <!-- Highlight current page -->
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">C++</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Python</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Java</a>
+                    </div>
+                </div>
+                <a href="about.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">About</a>
+                <a href="contact.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Contact</a>
+            </div>
+            <!-- Logged In User Indicator (Example) -->
+            <div class="hidden md:flex items-center space-x-4">
+                 <span class="text-slate-300">Welcome, User!</span> <!-- Placeholder -->
+                 <a href="index.html" class="text-sm text-slate-400 hover:text-yellow-400 transition">Logout</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+             <a href="index.html" class="block text-slate-300 hover:text-yellow-400 py-2">Home</a>
+             <a href="#" class="block text-yellow-400 py-2">Catalog</a>
+             <a href="about.html" class="block text-slate-300 hover:text-yellow-400 py-2">About</a>
+             <a href="contact.html" class="block text-slate-300 hover:text-yellow-400 py-2">Contact</a>
+             <div class="mt-4 pt-4 border-t border-slate-700">
+                <span class="block text-slate-300 py-2">Welcome, User!</span> <!-- Placeholder -->
+                <a href="index.html" class="w-full text-left text-sm text-slate-400 hover:text-yellow-400 transition py-2">Logout</a>
+             </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area with Sidebar -->
+    <div class="container mx-auto px-6 py-12 lg:py-16 flex flex-col md:flex-row gap-8 lg:gap-12">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-1/4 lg:w-1/5 bg-[#0c1322] p-6 rounded-lg self-start md:sticky md:top-24 fade-in">
+            <h2 class="text-xl font-bold text-white mb-6">Data Science Modules</h2>
+            <nav id="course-nav" class="space-y-1 text-sm">
+                <!-- Module 1: Python Basics -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 1: Python Basics</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-python-intro">1.1 Intro to Python</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-python-data">1.2 Data Types & Variables</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-python-control">1.3 Control Flow</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-quiz">Quiz 1</a>
+
+                 <!-- Module 2: Data Manipulation -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 2: Data Manipulation</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-numpy">2.1 NumPy Essentials</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-pandas-intro">2.2 Intro to Pandas</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-pandas-data">2.3 Data Cleaning with Pandas</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-quiz">Quiz 2</a>
+
+                 <!-- Module 3: Data Visualization -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 3: Data Visualization</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-matplotlib">3.1 Matplotlib Basics</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-seaborn">3.2 Seaborn for Statistical Plots</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-eda">3.3 Exploratory Data Analysis (EDA)</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-quiz">Quiz 3</a>
+
+                 <!-- Module 4: ML Foundations -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 4: ML Foundations</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-ml-concepts">4.1 Core ML Concepts</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-scikit-learn">4.2 Intro to Scikit-learn</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-regression">4.3 Linear Regression</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-quiz">Quiz 4</a>
+
+                 <!-- Module 5: Classification & SQL -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 5: Classification & SQL</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-classification">5.1 Classification Algorithms</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-model-eval">5.2 Model Evaluation</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-sql">5.3 SQL for Data Analysis</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-quiz">Quiz 5</a>
+
+                <!-- Module 6: Advanced ML -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 6: Advanced ML</h3>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-clustering">6.1 Unsupervised Learning</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-ensemble">6.2 Ensemble Methods</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-feature">6.3 Feature Engineering</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-quiz">Quiz 6</a>
+
+                 <!-- Module 7: Deep Learning -->
+                 <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 7: Deep Learning</h3>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m7-nn-intro">7.1 Neural Network Basics</a>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m7-tensorflow">7.2 Intro to TensorFlow/Keras</a>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m7-quiz">Quiz 7</a>
+
+                 <!-- Module 8: Specialized Topics -->
+                 <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 8: Specializations</h3>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m8-nlp">8.1 Natural Language Processing (NLP)</a>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m8-big-data">8.2 Big Data Concepts (Spark Intro)</a>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m8-time-series">8.3 Time Series Analysis</a>
+
+                 <!-- Module 9: Capstone -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 9: Final Project</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m9-project">Capstone Project</a>
+
+            </nav>
+        </aside>
+
+        <!-- Main Content Display -->
+        <main class="w-full md:w-3/4 lg:w-4/5 fade-in">
+            <!-- Content Sections -->
+            <div id="content-display">
+
+                <!-- Default Welcome Message -->
+                 <div id="content-default" class="content-section active bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h1 class="text-3xl font-bold text-white mb-4">Welcome to the Data Science Course!</h1>
+                    <p class="text-lg text-slate-300">Select a module from the sidebar to begin exploring Python, data analysis, machine learning, and more. Each section includes video lectures, reading materials, and quizzes.</p>
+                </div>
+
+                <!-- Module 1 Content -->
+                <div id="content-m1-python-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.1 Introduction to Python</h2>
+                    <p class="mb-4 text-slate-300">Get started with Python, the core language for data science.</p>
+                    <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/gfDE2a7MKjA" title="Python Tutorial for Beginners by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://www.w3schools.com/python/python_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python Introduction</a></li>
+                        <li><a href="https://docs.python.org/3/tutorial/introduction.html" target="_blank" class="text-yellow-400 hover:underline">Official Python Tutorial: Introduction</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-python-data" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.2 Python Data Types & Variables</h2>
+                    <p class="mb-4 text-slate-300">Learn about fundamental data types (numbers, strings, lists, dictionaries) and how to store them in variables.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/ORCuz7s5c44" title="Python Variables and Data Types by Shradha Khapra" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_variables.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python Variables</a></li>
+                         <li><a href="https://www.w3schools.com/python/python_datatypes.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python Data Types</a></li>
+                         <li><a href="https://www.w3schools.com/python/python_lists.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python Lists</a></li>
+                          <li><a href="https://www.w3schools.com/python/python_dictionaries.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python Dictionaries</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m1-python-control" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.3 Python Control Flow</h2>
+                    <p class="mb-4 text-slate-300">Learn how to control the execution of your code using loops (for, while) and conditional statements (if, else).</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/PqFKRqpHrjw" title="Python Conditional Statements by Shradha Khapra" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <!-- Note: Might need separate video for loops -->
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_conditions.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python If...Else</a></li>
+                         <li><a href="https://www.w3schools.com/python/python_while_loops.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python While Loops</a></li>
+                         <li><a href="https://www.w3schools.com/python/python_for_loops.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Python For Loops</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m1-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-6">Quiz 1: Python Basics</h2>
+                    <form id="quiz-1">
+                        <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">1. Which keyword is used to define a function in Python?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="a" class="mr-2 accent-yellow-400"> function</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="b" class="mr-2 accent-yellow-400"> def</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="c" class="mr-2 accent-yellow-400"> define</label>
+                            </div>
+                            <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                         <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">2. What is the output of `print(type([1, 2, 3]))`?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="a" class="mr-2 accent-yellow-400"> `<class 'list'>`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="b" class="mr-2 accent-yellow-400"> `<class 'tuple'>`</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="c" class="mr-2 accent-yellow-400"> `<class 'array'>`</label>
+                            </div>
+                             <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                        <button type="submit" class="bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition duration-300">Submit Quiz</button>
+                        <p id="quiz-1-result" class="mt-4 font-semibold hidden"></p>
+                    </form>
+                </div>
+
+                 <!-- Module 2 Content -->
+                <div id="content-m2-numpy" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.1 NumPy Essentials</h2>
+                    <p class="mb-4 text-slate-300">Learn NumPy for efficient numerical computations and array manipulations.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/QUT1VHiLmmI" title="NumPy Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/numpy/numpy_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: NumPy Introduction</a></li>
+                         <li><a href="https://numpy.org/doc/stable/user/quickstart.html" target="_blank" class="text-yellow-400 hover:underline">Official NumPy Quickstart</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m2-pandas-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.2 Introduction to Pandas</h2>
+                     <p class="mb-4 text-slate-300">Discover Pandas, the essential library for data manipulation and analysis in Python, focusing on Series and DataFrames.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/Ercd-Ip5PfQ" title="Pandas Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/pandas/pandas_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Pandas Introduction</a></li>
+                          <li><a href="https://pandas.pydata.org/docs/user_guide/dsintro.html" target="_blank" class="text-yellow-400 hover:underline">Official Pandas Intro to Data Structures</a></li>
+                          <li><a href="https://www.w3schools.com/python/pandas/pandas_series.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Pandas Series</a></li>
+                          <li><a href="https://www.w3schools.com/python/pandas/pandas_dataframes.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Pandas DataFrames</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m2-pandas-data" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.3 Data Cleaning with Pandas</h2>
+                     <p class="mb-4 text-slate-300">Learn techniques for handling missing data, duplicates, and incorrect data types using Pandas.</p>
+                     <!-- Placeholder for specific video if found, using general pandas for now -->
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/Ercd-Ip5PfQ" title="Pandas Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                     </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/pandas/pandas_cleaning.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Pandas Cleaning Data</a></li>
+                         <li><a href="https://www.w3schools.com/python/pandas/pandas_cleaning_empty_cells.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Cleaning Empty Cells</a></li>
+                          <li><a href="https://www.w3schools.com/python/pandas/pandas_cleaning_wrong_data.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Cleaning Wrong Data</a></li>
+                         <li><a href="https://pandas.pydata.org/docs/user_guide/missing_data.html" target="_blank" class="text-yellow-400 hover:underline">Official Pandas Docs: Working with Missing Data</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m2-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 2: Data Manipulation</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 2 form here later -->
+                 </div>
+
+                 <!-- Module 3 Content -->
+                 <div id="content-m3-matplotlib" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.1 Matplotlib Basics</h2>
+                    <p class="mb-4 text-slate-300">Learn to create basic plots like line graphs, scatter plots, and bar charts using Matplotlib.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/3Xc3CA655Y4" title="Matplotlib Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/matplotlib_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Matplotlib Introduction</a></li>
+                          <li><a href="https://matplotlib.org/stable/tutorials/pyplot.html" target="_blank" class="text-yellow-400 hover:underline">Official Matplotlib Pyplot Tutorial</a></li>
+                    </ul>
+                 </div>
+                <div id="content-m3-seaborn" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.2 Seaborn for Statistical Plots</h2>
+                    <p class="mb-4 text-slate-300">Explore Seaborn for creating more advanced and aesthetically pleasing statistical visualizations.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/YR6gDMHON7Y" title="Seaborn Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://seaborn.pydata.org/introduction.html" target="_blank" class="text-yellow-400 hover:underline">Official Seaborn Introduction</a></li>
+                         <li><a href="https://www.w3schools.com/python/seaborn_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Seaborn Introduction</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m3-eda" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.3 Exploratory Data Analysis (EDA)</h2>
+                     <p class="mb-4 text-slate-300">Combine Pandas and visualization libraries to explore datasets, understand patterns, and generate hypotheses.</p>
+                     <!-- Placeholder for specific video -->
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/Ercd-Ip5PfQ" title="Pandas Tutorial (often covers EDA)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                     </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.kaggle.com/code/spscientist/a-simple-tutorial-on-exploratory-data-analysis" target="_blank" class="text-yellow-400 hover:underline">Kaggle: Simple EDA Tutorial</a></li>
+                          <li><a href="https://towardsdatascience.com/exploratory-data-analysis-eda-python-87178e35b14" target="_blank" class="text-yellow-400 hover:underline">Towards Data Science: EDA Article</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m3-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 3: Data Visualization</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 3 form here later -->
+                 </div>
+
+                 <!-- Module 4 Content -->
+                 <div id="content-m4-ml-concepts" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.1 Core Machine Learning Concepts</h2>
+                    <p class="mb-4 text-slate-300">Understand the difference between supervised, unsupervised, and reinforcement learning, and key terminology.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/ukzFI9rgwfU" title="Machine Learning Introduction by Shradha Khapra" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_ml_getting_started.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: ML Getting Started</a></li>
+                         <li><a href="https://scikit-learn.org/stable/tutorial/basic/tutorial.html#machine-learning-the-problem-setting" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: The Problem Setting</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-scikit-learn" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.2 Introduction to Scikit-learn</h2>
+                    <p class="mb-4 text-slate-300">Get familiar with Scikit-learn, the primary Python library for machine learning tasks.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/0B5eIE_1vpU" title="Scikit-learn Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://scikit-learn.org/stable/getting_started.html" target="_blank" class="text-yellow-400 hover:underline">Official Scikit-learn Getting Started</a></li>
+                         <li><a href="https://www.w3schools.com/python/python_ml_train_test.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Train/Test Split</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-regression" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.3 Linear Regression</h2>
+                    <p class="mb-4 text-slate-300">Learn your first supervised learning algorithm: Linear Regression for predicting continuous values.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/vsWrXfO3wWw" title="Linear Regression by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_ml_linear_regression.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Linear Regression</a></li>
+                         <li><a href="https://scikit-learn.org/stable/modules/linear_model.html#ordinary-least-squares" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: Linear Regression</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m4-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 4: ML Foundations</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 4 form here later -->
+                 </div>
+
+                 <!-- Module 5 Content -->
+                 <div id="content-m5-classification" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.1 Classification Algorithms</h2>
+                    <p class="mb-4 text-slate-300">Learn common classification algorithms like Logistic Regression and K-Nearest Neighbors (KNN).</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/aj4p5z6Q7MQ" title="Logistic Regression by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         <!-- May need another for KNN -->
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_ml_logistic_regression.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Logistic Regression</a></li>
+                         <li><a href="https://www.w3schools.com/python/python_ml_knn.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: K-Nearest Neighbors</a></li>
+                         <li><a href="https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: Logistic Regression</a></li>
+                         <li><a href="https://scikit-learn.org/stable/modules/neighbors.html" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: Nearest Neighbors</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-model-eval" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.2 Model Evaluation</h2>
+                    <p class="mb-4 text-slate-300">Learn how to evaluate the performance of your machine learning models using various metrics.</p>
+                     <!-- Placeholder - general ML video -->
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/ukzFI9rgwfU" title="Machine Learning Introduction by Shradha Khapra" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_ml_train_test.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Train/Test</a></li>
+                         <li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: Model Evaluation</a></li>
+                         <li><a href="https://developers.google.com/machine-learning/crash-course/classification/accuracy" target="_blank" class="text-yellow-400 hover:underline">Google ML Crash Course: Accuracy</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m5-sql" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.3 SQL for Data Analysis</h2>
+                    <p class="mb-4 text-slate-300">Learn the basics of SQL (Structured Query Language) to retrieve and manipulate data from relational databases.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/hlGoQC332VM" title="SQL Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/sql/sql_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: SQL Introduction</a></li>
+                         <li><a href="https://www.w3schools.com/sql/sql_select.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: SQL SELECT Statement</a></li>
+                         <li><a href="https://www.w3schools.com/sql/sql_where.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: SQL WHERE Clause</a></li>
+                          <li><a href="https://mode.com/sql-tutorial/introduction-to-sql/" target="_blank" class="text-yellow-400 hover:underline">Mode Analytics SQL Tutorial</a></li>
+                    </ul>
+                 </div>
+                  <div id="content-m5-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 5: Classification & SQL</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 5 form here later -->
+                 </div>
+
+                 <!-- Module 6 Content: Advanced ML -->
+                 <div id="content-m6-clustering" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">6.1 Unsupervised Learning: Clustering</h2>
+                    <p class="mb-4 text-slate-300">Explore unsupervised learning techniques like K-Means Clustering to find patterns in unlabeled data.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/-_gRSl408hM" title="K-Means Clustering by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_ml_k-means.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: K-Means</a></li>
+                         <li><a href="https://scikit-learn.org/stable/modules/clustering.html#k-means" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: K-Means</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m6-ensemble" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">6.2 Ensemble Methods</h2>
+                    <p class="mb-4 text-slate-300">Learn how combining multiple models (like Random Forests and Gradient Boosting) can improve predictive performance.</p>
+                    <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/D_2LkhMJcfY" title="Random Forest Algorithm by Shradha Khapra" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                         <!-- May need separate video for Boosting -->
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://scikit-learn.org/stable/modules/ensemble.html" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: Ensemble Methods</a></li>
+                        <li><a href="https://www.w3schools.com/python/python_ml_random_forest.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Random Forest</a></li>
+                        <li><a href="https://www.analyticsvidhya.com/blog/2021/06/understanding-random-forest/" target="_blank" class="text-yellow-400 hover:underline">Analytics Vidhya: Understanding Random Forest</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m6-feature" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">6.3 Feature Engineering</h2>
+                     <p class="mb-4 text-slate-300">Learn techniques to create, select, and transform features to improve machine learning model performance.</p>
+                     <!-- Placeholder - general ML video -->
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/ukzFI9rgwfU" title="Machine Learning Introduction by Shradha Khapra" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li><a href="https://developers.google.com/machine-learning/crash-course/feature-engineering/video-lecture" target="_blank" class="text-yellow-400 hover:underline">Google ML Crash Course: Feature Engineering</a></li>
+                          <li><a href="https://scikit-learn.org/stable/modules/feature_selection.html" target="_blank" class="text-yellow-400 hover:underline">Scikit-learn: Feature Selection</a></li>
+                     </ul>
+                 </div>
+                 <div id="content-m6-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 6: Advanced ML</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 6 form here later -->
+                 </div>
+
+                <!-- Module 7: Deep Learning -->
+                <div id="content-m7-nn-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">7.1 Neural Network Basics</h2>
+                    <p class="mb-4 text-slate-300">Understand the fundamental concepts behind Artificial Neural Networks (ANNs), neurons, layers, and activation functions.</p>
+                    <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/aircAruvnKk" title="Neural Networks Explained by StatQuest" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> <!-- Using a well-known explainer -->
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://www.w3schools.com/python/python_ml_neural_network.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Neural Networks</a></li>
+                        <li><a href="https://developers.google.com/machine-learning/crash-course/introduction-to-neural-networks/video-lecture" target="_blank" class="text-yellow-400 hover:underline">Google ML Crash Course: Intro to Neural Nets</a></li>
+                    </ul>
+                </div>
+                <div id="content-m7-tensorflow" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">7.2 Intro to TensorFlow/Keras</h2>
+                    <p class="mb-4 text-slate-300">Get started with TensorFlow and its high-level API Keras for building and training deep learning models.</p>
+                    <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/qFJeN9V1ZsI" title="TensorFlow Tutorial by freeCodeCamp" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> <!-- Using a popular resource -->
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://www.tensorflow.org/tutorials/quickstart/beginner" target="_blank" class="text-yellow-400 hover:underline">TensorFlow Quickstart for Beginners</a></li>
+                        <li><a href="https://keras.io/getting_started/" target="_blank" class="text-yellow-400 hover:underline">Keras Getting Started Guide</a></li>
+                         <li><a href="https://www.w3schools.com/python/python_ml_tensorflow.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: TensorFlow</a></li>
+                    </ul>
+                </div>
+                <div id="content-m7-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 7: Deep Learning Basics</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 7 form here later -->
+                 </div>
+
+                 <!-- Module 8: Specialized Topics -->
+                 <div id="content-m8-nlp" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">8.1 Natural Language Processing (NLP)</h2>
+                    <p class="mb-4 text-slate-300">Learn the basics of processing and analyzing text data using libraries like NLTK or spaCy.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/fNxaJsNG3-s" title="NLP Tutorial by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/python/python_ml_natural_language_processing.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: NLP</a></li>
+                         <li><a href="https://www.nltk.org/book/" target="_blank" class="text-yellow-400 hover:underline">NLTK Book (Online)</a></li>
+                         <li><a href="https://spacy.io/usage" target="_blank" class="text-yellow-400 hover:underline">spaCy Usage Guide</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m8-big-data" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">8.2 Big Data Concepts (Spark Intro)</h2>
+                    <p class="mb-4 text-slate-300">Get a brief introduction to the challenges of Big Data and tools like Apache Spark for distributed processing.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/FXhfZS5j7Wk" title="Introduction to Apache Spark by freeCodeCamp" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://spark.apache.org/docs/latest/quick-start.html" target="_blank" class="text-yellow-400 hover:underline">Apache Spark Quick Start</a></li>
+                         <li><a href="https://www.w3schools.com/bigdata/bigdata_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Big Data Intro</a></li>
+                    </ul>
+                 </div>
+                 <div id="content-m8-time-series" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">8.3 Time Series Analysis</h2>
+                    <p class="mb-4 text-slate-300">Learn techniques for analyzing data points indexed in time order, common in forecasting and financial analysis.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/2XGSIlgUBDI" title="Time Series Analysis by Code With Harry" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://www.w3schools.com/python/pandas/pandas_time_series.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Pandas Time Series</a></li>
+                        <li><a href="https://www.statsmodels.org/stable/tsa.html" target="_blank" class="text-yellow-400 hover:underline">Statsmodels Time Series Analysis</a></li>
+                    </ul>
+                 </div>
+
+                 <!-- Module 9: Capstone -->
+                 <div id="content-m9-project" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">Capstone Project</h2>
+                     <p class="text-slate-300 mb-4">Apply all the data science skills you've acquired throughout the course to tackle a substantial real-world problem. Choose a dataset, perform analysis, build predictive models, visualize your findings, and present your results.</p>
+                      <h3 class="text-xl font-semibold text-white mb-3">Project Ideas (Examples)</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li>Predicting house prices based on features.</li>
+                          <li>Classifying customer churn for a subscription service.</li>
+                          <li>Analyzing sentiment from product reviews.</li>
+                          <li>Clustering customers based on purchasing behavior.</li>
+                          <li>Analyzing trends in public health data.</li>
+                      </ul>
+                     <p class="mt-6 text-slate-300">You will receive detailed guidelines, suggested datasets, and mentorship support to complete your capstone project.</p>
+                 </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#000814] border-t border-slate-800 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-xl font-bold text-white">Ed Tech</h4>
+                    <p class="text-slate-400 mt-2">Empowering the future of learning.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Subjects</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="webdev.html" class="hover:text-yellow-400">Web Development</a></li>
+                        <li><a href="datascience.html" class="hover:text-yellow-400">Data Science</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">AI & ML</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Languages</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Python</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">JavaScript</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">C++</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Java</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Company</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="about.html" class="hover:text-yellow-400">About</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Careers</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Blog</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                       <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Twitter Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.76 2.81 1.91 3.58-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.35 0-.69-.02-1.03-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.38-.01-.57.84-.6 1.56-1.36 2.14-2.22z"></path></svg>
+                       </a>
+                        <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Facebook Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-5.5H9V9.5h2V7.41c0-2.09 1.29-3.25 3.23-3.25.92 0 1.7.07 1.93.1v2.12h-1.26c-1.03 0-1.23.49-1.23 1.2v1.42h2.36l-.31 2H14.73V17H11z"></path></svg>
+                       </a>
+                        <!-- Add more social icons as needed -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-800 pt-8 text-center text-slate-500">
+                <p>&copy; 2025 Ed Tech. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4 hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+             // Fade-in animation for initial load
+            const initialFaders = document.querySelectorAll('main.fade-in, aside.fade-in');
+            initialFaders.forEach(el => el.classList.add('visible'));
+
+
+            // Sidebar Navigation & Content Switching
+            const courseNav = document.getElementById('course-nav');
+            const contentDisplay = document.getElementById('content-display');
+            const contentSections = contentDisplay.querySelectorAll('.content-section');
+            const sidebarLinks = courseNav.querySelectorAll('.sidebar-link');
+
+            if (courseNav && contentDisplay) {
+                // Function to handle content switching
+                function switchContent(contentId) {
+                     if (!contentId) return;
+
+                     // Update active link style
+                    sidebarLinks.forEach(link => {
+                        if (link.getAttribute('data-content') === contentId) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+
+                     // Switch content section
+                    let foundContent = false;
+                    contentSections.forEach(section => {
+                        if (section.id === `content-${contentId}`) {
+                            section.classList.add('active');
+                            foundContent = true;
+                             // Trigger fade-in for the newly active section
+                             requestAnimationFrame(() => {
+                                section.classList.add('visible');
+                            });
+                        } else {
+                            section.classList.remove('active', 'visible');
+                        }
+                    });
+                     // Show default if no specific content found or on initial load with no hash
+                    const defaultContent = document.getElementById('content-default');
+                     if (!foundContent && defaultContent) {
+                         defaultContent.classList.add('active', 'visible');
+                         sidebarLinks.forEach(link => link.classList.remove('active')); // Clear active links
+                    } else if (defaultContent && foundContent) {
+                         defaultContent.classList.remove('active', 'visible');
+                     }
+                      // Scroll main content area to top smoothly
+                      // Use window scroll as main content area might not be scrollable itself
+                      window.scrollTo({ top: contentDisplay.offsetTop - 100, behavior: 'smooth' }); // Adjust offset if needed
+
+                }
+
+                // Event listener for sidebar clicks
+                courseNav.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetLink = event.target.closest('.sidebar-link');
+                    if (!targetLink) return;
+                    const contentId = targetLink.getAttribute('data-content');
+                    switchContent(contentId);
+                     // Update URL hash for bookmarking/linking (optional)
+                     // window.location.hash = contentId;
+                });
+
+                 // Initial content load based on URL hash (optional)
+                 // const initialHash = window.location.hash.substring(1);
+                 // if (initialHash) {
+                 //    switchContent(initialHash);
+                 // } else {
+                 //    switchContent(null); // Show default
+                 // }
+                 // Show default content initially if no hash
+                  if (document.getElementById('content-default')) {
+                        document.getElementById('content-default').classList.add('active', 'visible');
+                  }
+
+            }
+
+
+            // Basic Quiz Functionality (Example for Quiz 1)
+            const quiz1Form = document.getElementById('quiz-1');
+            if (quiz1Form) {
+                 // Handle option selection style
+                quiz1Form.addEventListener('change', (event) => {
+                     if (event.target.type === 'radio') {
+                         const optionsContainer = event.target.closest('.quiz-options');
+                         optionsContainer.querySelectorAll('.quiz-option').forEach(label => {
+                             label.classList.remove('selected');
+                         });
+                         event.target.closest('.quiz-option').classList.add('selected');
+                     }
+                });
+
+                quiz1Form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const answers = { q1: 'b', q2: 'a' }; // Correct answers for Python Quiz
+                    let score = 0;
+                    const totalQuestions = Object.keys(answers).length;
+                    const formData = new FormData(quiz1Form);
+
+                    for (const [question, correctAnswer] of Object.entries(answers)) {
+                        const userAnswer = formData.get(question);
+                        const questionGroup = quiz1Form.querySelector(`input[name="${question}"]`).closest('.mb-6');
+                        const options = questionGroup.querySelectorAll('.quiz-option');
+                        const feedbackEl = questionGroup.querySelector('.quiz-feedback');
+
+                        options.forEach(label => {
+                             label.classList.remove('selected', 'correct', 'incorrect');
+                             const input = label.querySelector('input');
+                             if (input.value === correctAnswer) {
+                                 label.classList.add('correct'); // Highlight correct answer
+                             }
+                             if (input.value === userAnswer && userAnswer !== correctAnswer) {
+                                 label.classList.add('incorrect'); // Highlight wrong selected answer
+                             }
+                              input.disabled = true; // Disable after submission
+                        });
+
+                        if (userAnswer === correctAnswer) {
+                            score++;
+                             feedbackEl.textContent = 'Correct!';
+                             feedbackEl.style.color = '#10B981'; // Green
+                        } else if (userAnswer) {
+                            feedbackEl.textContent = `Incorrect. The correct answer was option ${correctAnswer.toUpperCase()}.`;
+                             feedbackEl.style.color = '#EF4444'; // Red
+                        } else {
+                             feedbackEl.textContent = 'You did not answer this question.';
+                             feedbackEl.style.color = '#FBBF24'; // Yellow
+                        }
+                         feedbackEl.classList.remove('hidden');
+                    }
+
+                    const resultEl = document.getElementById('quiz-1-result');
+                    resultEl.textContent = `Your Score: ${score} out of ${totalQuestions}`;
+                    resultEl.style.color = score / totalQuestions >= 0.6 ? '#34D399' : '#F87171'; // Green if >= 60%, else Red
+                    resultEl.classList.remove('hidden');
+
+                     quiz1Form.querySelector('button[type="submit"]').disabled = true; // Disable submit button
+                     quiz1Form.querySelector('button[type="submit"]').textContent = 'Submitted';
+                     quiz1Form.querySelector('button[type="submit"]').classList.add('opacity-50', 'cursor-not-allowed');
+                });
+            }
+             // Add similar logic for Quiz 2, 3, 4, 5, 6, 7 if forms are added...
+
+
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                    } else {
+                        scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
+                    }
+                });
+
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
+
+
