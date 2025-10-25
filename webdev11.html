@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Course Content - Ed Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000814;
+            color: #CBD5E1;
+        }
+        /* Gradient text */
+        .gradient-text-blue {
+            background: linear-gradient(to right, #00B4DB, #0083B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+             opacity: 1;
+             transform: translateY(0);
+        }
+        .scroll-to-top {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        /* Sidebar active link style */
+        .sidebar-link.active {
+            background-color: #162136;
+            color: #FBBF24; /* Yellow */
+            font-weight: 600;
+        }
+        /* Content transition placeholder */
+        .content-section {
+            display: none; /* Initially hide all content sections */
+             opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .content-section.active {
+            display: block; /* Show the active one */
+            opacity: 1;
+        }
+         /* Simple Quiz Styles */
+        .quiz-option {
+            transition: background-color 0.2s ease;
+        }
+         .quiz-option:hover {
+            background-color: #1f2e4d;
+         }
+         .quiz-option.selected {
+            background-color: #3b82f6; /* Blue for selected */
+            color: white;
+            border-color: #3b82f6;
+         }
+          .quiz-option.correct {
+            background-color: #10B981; /* Green for correct */
+            color: white;
+            border-color: #10B981;
+         }
+           .quiz-option.incorrect {
+            background-color: #EF4444; /* Red for incorrect */
+            color: white;
+            border-color: #EF4444;
+         }
+         /* Aspect Ratio for Videos */
+         .aspect-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #162136; /* Placeholder bg */
+            border-radius: 0.375rem; /* rounded */
+         }
+         .aspect-video iframe {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             border: 0;
+         }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 sticky top-0 z-50 shadow-md shadow-slate-800 backdrop-blur-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">Ed Tech</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Home</a>
+                <!-- Catalog Dropdown -->
+                <div class="relative group">
+                    <button class="text-yellow-400 transition duration-300 flex items-center"> <!-- Highlight Catalog -->
+                        Catalog
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute hidden group-hover:block bg-white text-black rounded-md shadow-lg mt-2 py-2 w-48 z-10">
+                        <a href="webdev.html" class="block px-4 py-2 hover:bg-gray-200">Web Development</a> <!-- Highlight current page -->
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Data Science</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">C++</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Python</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Java</a>
+                    </div>
+                </div>
+                <a href="about.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">About</a>
+                <a href="contact.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Contact</a>
+            </div>
+            <!-- Logged In User Indicator (Example) -->
+            <div class="hidden md:flex items-center space-x-4">
+                 <span class="text-slate-300">Welcome, User!</span> <!-- Placeholder -->
+                 <a href="index.html" class="text-sm text-slate-400 hover:text-yellow-400 transition">Logout</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
+             <a href="index.html" class="block text-slate-300 hover:text-yellow-400 py-2">Home</a>
+             <a href="#" class="block text-yellow-400 py-2">Catalog</a>
+             <a href="about.html" class="block text-slate-300 hover:text-yellow-400 py-2">About</a>
+             <a href="contact.html" class="block text-slate-300 hover:text-yellow-400 py-2">Contact</a>
+             <div class="mt-4 pt-4 border-t border-slate-700">
+                <span class="block text-slate-300 py-2">Welcome, User!</span> <!-- Placeholder -->
+                <a href="index.html" class="w-full text-left text-sm text-slate-400 hover:text-yellow-400 transition py-2">Logout</a>
+             </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area with Sidebar -->
+    <div class="container mx-auto px-6 py-12 lg:py-16 flex flex-col md:flex-row gap-8 lg:gap-12">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-1/4 lg:w-1/5 bg-[#0c1322] p-6 rounded-lg self-start md:sticky md:top-24 fade-in">
+            <h2 class="text-xl font-bold text-white mb-6">Course Modules</h2>
+            <nav id="course-nav" class="space-y-1 text-sm">
+                <!-- Module 1 Links -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 1: Intro</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-intro">1.1 How Web Works</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-html">1.2 HTML Basics</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-css">1.3 CSS Basics</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m1-quiz">Quiz 1</a>
+
+                 <!-- Module 2 Links -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 2: JavaScript</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-js-vars">2.1 Variables & Data</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-js-dom">2.2 DOM Manipulation</a>
+                 <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-js-async">2.3 Async JS</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m2-quiz">Quiz 2</a>
+
+                 <!-- Module 3 Links -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 3: React</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-react-intro">3.1 Intro to React</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-react-hooks">3.2 React Hooks</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-react-router">3.3 React Router</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m3-quiz">Quiz 3</a>
+
+                 <!-- Module 4 Links: Backend -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 4: Backend</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-node-intro">4.1 Intro to Node.js</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-express">4.2 Express Framework</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-middleware">4.3 Middleware</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m4-quiz">Quiz 4</a>
+
+                 <!-- Module 5 Links: Database -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 5: Database</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-db-intro">5.1 Database Concepts</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-mongodb">5.2 Intro to MongoDB</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-mongoose">5.3 Mongoose ODM</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m5-quiz">Quiz 5</a>
+
+                 <!-- Module 6 Links: Git & Deployment -->
+                <h3 class="font-semibold text-slate-400 text-xs uppercase pt-3 pb-1 tracking-wider">Module 6: Tools</h3>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-git">6.1 Git & GitHub</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-deploy">6.2 Deployment Basics</a>
+                <a href="#" class="sidebar-link block py-2 px-3 rounded hover:bg-[#162136] transition duration-200" data-content="m6-final">Final Project</a>
+
+            </nav>
+        </aside>
+
+        <!-- Main Content Display -->
+        <main class="w-full md:w-3/4 lg:w-4/5 fade-in">
+            <!-- Content Sections -->
+            <div id="content-display">
+
+                <!-- Default Welcome Message -->
+                 <div id="content-default" class="content-section active bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h1 class="text-3xl font-bold text-white mb-4">Welcome to Web Development!</h1>
+                    <p class="text-lg text-slate-300">Select a module from the sidebar to begin your learning journey. You'll find video lectures, reading materials, and quizzes to test your knowledge.</p>
+                </div>
+
+                <!-- Module 1 Content -->
+                <div id="content-m1-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.1 How the Web Works</h2>
+                    <p class="mb-4 text-slate-300">Understand the basics of HTTP, browsers, and servers.</p>
+                    <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/HTTPStatusCodeExplained" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                    <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                        <li><a href="https://www.w3schools.com/whatis/whatis_http.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: What is HTTP?</a></li>
+                        <li><a href="https://www.w3schools.com/whatis/whatis_browser.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: What is a Web Browser?</a></li>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/How_does_the_Internet_work" target="_blank" class="text-yellow-400 hover:underline">MDN: How does the Internet work?</a></li>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank" class="text-yellow-400 hover:underline">MDN: An overview of HTTP</a></li>
+                    </ul>
+                </div>
+                <div id="content-m1-html" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.2 HTML Basics</h2>
+                    <p class="mb-4 text-slate-300">Learn the structure, elements, and semantics of HTML.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/BsDoLVMnmZs" title="HTML Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/html/html_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: HTML Introduction</a></li>
+                         <li><a href="https://www.w3schools.com/html/html_elements.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: HTML Elements</a></li>
+                         <li><a href="https://www.w3schools.com/html/html_attributes.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: HTML Attributes</a></li>
+                         <li><a href="https://www.w3schools.com/html/html_semantic_elements.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: HTML Semantic Elements</a></li>
+                         <li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML" target="_blank" class="text-yellow-400 hover:underline">MDN: Introduction to HTML</a></li>
+                    </ul>
+                     <h3 class="text-xl font-semibold text-white mt-6 mb-3">Try It Yourself</h3>
+                     <p><a href="https://www.w3schools.com/html/tryit.asp?filename=tryhtml_intro" target="_blank" class="text-yellow-400 hover:underline">W3Schools HTML Editor</a> - Experiment with code directly in your browser.</p>
+                </div>
+                <div id="content-m1-css" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">1.3 CSS Basics</h2>
+                    <p class="mb-4 text-slate-300">Style your web pages using CSS selectors, the box model, and layouts.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/Edsxf_NBFrw" title="CSS Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/css/css_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: CSS Introduction</a></li>
+                         <li><a href="https://www.w3schools.com/css/css_selectors.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: CSS Selectors</a></li>
+                         <li><a href="https://www.w3schools.com/css/css_boxmodel.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: CSS Box Model</a></li>
+                         <li><a href="https://www.w3schools.com/css/css_display_visibility.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: CSS Layout - The display Property</a></li>
+                         <li><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps" target="_blank" class="text-yellow-400 hover:underline">MDN: CSS First Steps</a></li>
+                    </ul>
+                     <h3 class="text-xl font-semibold text-white mt-6 mb-3">Try It Yourself</h3>
+                     <p><a href="https://www.w3schools.com/css/tryit.asp?filename=trycss_intro" target="_blank" class="text-yellow-400 hover:underline">W3Schools CSS Editor</a> - Practice styling HTML elements.</p>
+                </div>
+                 <div id="content-m1-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-6">Quiz 1: Web Fundamentals</h2>
+                    <form id="quiz-1">
+                        <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">1. What does HTML stand for?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="a" class="mr-2 accent-yellow-400"> Hyper Text Markup Language</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="b" class="mr-2 accent-yellow-400"> High Tech Modern Language</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q1" value="c" class="mr-2 accent-yellow-400"> Hyperlinks and Text Markup Language</label>
+                            </div>
+                            <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                         <div class="mb-6">
+                            <p class="font-semibold mb-3 text-slate-200">2. Which CSS property controls the spacing *inside* an element?</p>
+                            <div class="space-y-2 quiz-options">
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="a" class="mr-2 accent-yellow-400"> margin</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="b" class="mr-2 accent-yellow-400"> padding</label>
+                                <label class="quiz-option block border border-slate-700 rounded p-3 cursor-pointer text-slate-300"><input type="radio" name="q2" value="c" class="mr-2 accent-yellow-400"> border</label>
+                            </div>
+                             <p class="quiz-feedback mt-2 text-sm hidden"></p>
+                        </div>
+                        <button type="submit" class="bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg hover:bg-yellow-500 transition duration-300">Submit Quiz</button>
+                        <p id="quiz-1-result" class="mt-4 font-semibold hidden"></p>
+                    </form>
+                </div>
+
+                <!-- Module 2 Content -->
+                <div id="content-m2-js-vars" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.1 JavaScript: Variables & Data Types</h2>
+                     <p class="mb-4 text-slate-300">Learn about variables, different data types (strings, numbers, booleans), and operators in JavaScript.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/ER9SspLe4Hg" title="JavaScript Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/js/js_variables.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: JS Variables</a></li>
+                         <li><a href="https://www.w3schools.com/js/js_datatypes.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: JS Data Types</a></li>
+                         <li><a href="https://www.w3schools.com/js/js_operators.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: JS Operators</a></li>
+                         <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Variables" target="_blank" class="text-yellow-400 hover:underline">MDN: Storing the information you need — Variables</a></li>
+                    </ul>
+                      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Try It Yourself</h3>
+                     <p><a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_variables" target="_blank" class="text-yellow-400 hover:underline">W3Schools JS Editor</a> - Play with variables and operators.</p>
+                </div>
+                 <div id="content-m2-js-dom" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">2.2 DOM Manipulation</h2>
+                    <p class="mb-4 text-slate-300">Learn how to interact with HTML elements using JavaScript and respond to user events.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/0hi8XbPnhpA" title="DOM Manipulation Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/js/js_htmldom.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: JS HTML DOM</a></li>
+                         <li><a href="https://www.w3schools.com/js/js_htmldom_methods.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: DOM Methods</a></li>
+                         <li><a href="https://www.w3schools.com/js/js_htmldom_events.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: DOM Events</a></li>
+                         <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents" target="_blank" class="text-yellow-400 hover:underline">MDN: Manipulating documents</a></li>
+                    </ul>
+                      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Try It Yourself</h3>
+                     <p><a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_dom_addeventlistener" target="_blank" class="text-yellow-400 hover:underline">W3Schools DOM Event Editor</a> - Practice adding event listeners.</p>
+                </div>
+                 <div id="content-m2-js-async" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">2.3 Asynchronous JavaScript</h2>
+                     <p class="mb-4 text-slate-300">Understand asynchronous operations, Promises, and async/await for handling tasks like fetching data.</p>
+                      <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/8zKuNo4ay8E" title="Async/Await JavaScript Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                     </div>
+                      <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li><a href="https://www.w3schools.com/js/js_async.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: JS Async</a></li>
+                          <li><a href="https://www.w3schools.com/js/js_promise.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: JS Promises</a></li>
+                          <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous" target="_blank" class="text-yellow-400 hover:underline">MDN: Asynchronous JavaScript</a></li>
+                     </ul>
+                 </div>
+                 <div id="content-m2-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 2: JavaScript Basics</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 2 form here later -->
+                 </div>
+
+                <!-- Module 3 Content -->
+                <div id="content-m3-react-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.1 Introduction to React</h2>
+                     <p class="mb-4 text-slate-300">Understand the core concepts of React: Components, JSX, and Props.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/RGKi6LSPDLU" title="React JS Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/react/react_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: React Introduction</a></li>
+                         <li><a href="https://www.w3schools.com/react/react_jsx.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: React JSX</a></li>
+                         <li><a href="https://www.w3schools.com/react/react_components.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: React Components</a></li>
+                         <li><a href="https://react.dev/learn" target="_blank" class="text-yellow-400 hover:underline">Official React Docs: Quick Start</a></li>
+                    </ul>
+                     <h3 class="text-xl font-semibold text-white mt-6 mb-3">Try It Yourself</h3>
+                    <p><a href="https://www.w3schools.com/react/showreact.asp?filename=demo_react_hello" target="_blank" class="text-yellow-400 hover:underline">W3Schools React Editor</a> - Create your first React component.</p>
+                </div>
+                 <div id="content-m3-react-hooks" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">3.2 React Hooks</h2>
+                    <p class="mb-4 text-slate-300">Learn about essential React Hooks like `useState` and `useEffect`.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/LDB4uaJ87e0" title="React Hooks Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/react/react_hooks.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: React Hooks</a></li>
+                         <li><a href="https://www.w3schools.com/react/react_usestate.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: React useState Hook</a></li>
+                         <li><a href="https://www.w3schools.com/react/react_useeffect.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: React useEffect Hook</a></li>
+                         <li><a href="https://react.dev/reference/react/useState" target="_blank" class="text-yellow-400 hover:underline">Official React Docs: useState</a></li>
+                    </ul>
+                      <h3 class="text-xl font-semibold text-white mt-6 mb-3">Try It Yourself</h3>
+                     <p><a href="https://www.w3schools.com/react/showreact.asp?filename=demo_react_usestate_counter" target="_blank" class="text-yellow-400 hover:underline">W3Schools useState Example</a> - Build a simple counter.</p>
+                </div>
+                 <div id="content-m3-react-router" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">3.3 React Router</h2>
+                     <p class="mb-4 text-slate-300">Learn how to implement client-side routing in your React applications.</p>
+                      <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/PkZNo7MFNFg" title="React Router Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                     </div>
+                      <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li><a href="https://www.w3schools.com/react/react_router.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: React Router</a></li>
+                          <li><a href="https://reactrouter.com/en/main/start/tutorial" target="_blank" class="text-yellow-400 hover:underline">Official React Router Tutorial</a></li>
+                     </ul>
+                 </div>
+                 <div id="content-m3-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 3: React Fundamentals</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 3 form here later -->
+                 </div>
+
+                 <!-- Module 4 Content: Backend -->
+                 <div id="content-m4-node-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.1 Introduction to Node.js</h2>
+                     <p class="mb-4 text-slate-300">Understand what Node.js is and how to set up your environment.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/BLl32FvcdVM" title="Node.js Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/nodejs/nodejs_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Node.js Intro</a></li>
+                         <li><a href="https://nodejs.org/en/about" target="_blank" class="text-yellow-400 hover:underline">Official Node.js About Page</a></li>
+                         <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction" target="_blank" class="text-yellow-400 hover:underline">MDN: Introduction to Node.js and Express</a></li>
+                    </ul>
+                </div>
+                <div id="content-m4-express" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">4.2 Express Framework</h2>
+                    <p class="mb-4 text-slate-300">Learn to build web servers and APIs using the popular Express.js framework.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/7t2G99Vzql8" title="Express.js Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/nodejs/nodejs_express.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Node.js Express</a></li>
+                         <li><a href="https://expressjs.com/en/starter/hello-world.html" target="_blank" class="text-yellow-400 hover:underline">Express.js "Hello World" Example</a></li>
+                         <li><a href="https://expressjs.com/en/guide/routing.html" target="_blank" class="text-yellow-400 hover:underline">Express.js Routing Guide</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m4-middleware" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">4.3 Express Middleware</h2>
+                     <p class="mb-4 text-slate-300">Understand the concept of middleware in Express for handling requests and responses.</p>
+                      <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/SBWO-mRj504" title="Express JS Middleware Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                     </div>
+                      <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li><a href="https://expressjs.com/en/guide/using-middleware.html" target="_blank" class="text-yellow-400 hover:underline">Express.js: Using Middleware</a></li>
+                          <li><a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes" target="_blank" class="text-yellow-400 hover:underline">MDN: Express Routes and Middleware</a></li>
+                     </ul>
+                 </div>
+                 <div id="content-m4-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 4: Backend Basics</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 4 form here later -->
+                 </div>
+
+                 <!-- Module 5 Content: Database -->
+                  <div id="content-m5-db-intro" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.1 Database Concepts</h2>
+                     <p class="mb-4 text-slate-300">Understand the difference between SQL and NoSQL databases.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/z2kbsG8zsLM" title="SQL vs NoSQL Explained" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/sql/sql_intro.asp" target="_blank" class="text-yellow-400 hover:underline">W3Schools: SQL Intro</a></li>
+                         <li><a href="https://www.w3schools.com/mongodb/mongodb_intro.php" target="_blank" class="text-yellow-400 hover:underline">W3Schools: MongoDB Intro</a></li>
+                         <li><a href="https://www.mongodb.com/nosql-explained" target="_blank" class="text-yellow-400 hover:underline">MongoDB: NoSQL Explained</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m5-mongodb" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">5.2 Introduction to MongoDB</h2>
+                    <p class="mb-4 text-slate-300">Learn the basics of MongoDB, a popular NoSQL database.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/oSIv-E60NiU" title="MongoDB Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/mongodb/" target="_blank" class="text-yellow-400 hover:underline">W3Schools: MongoDB Tutorial</a></li>
+                         <li><a href="https://www.mongodb.com/docs/manual/introduction/" target="_blank" class="text-yellow-400 hover:underline">Official MongoDB Docs: Introduction</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m5-mongoose" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">5.3 Mongoose ODM</h2>
+                     <p class="mb-4 text-slate-300">Learn how to interact with MongoDB using Mongoose in your Node.js application.</p>
+                      <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/YlVO3iF0vT0" title="Mongoose ODM Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                     </div>
+                      <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://mongoosejs.com/docs/guide.html" target="_blank" class="text-yellow-400 hover:underline">Mongoose Quick Start Guide</a></li>
+                         <li><a href="https://mongoosejs.com/docs/models.html" target="_blank" class="text-yellow-400 hover:underline">Mongoose Models</a></li>
+                         <li><a href="https://mongoosejs.com/docs/queries.html" target="_blank" class="text-yellow-400 hover:underline">Mongoose Queries</a></li>
+                     </ul>
+                 </div>
+                 <div id="content-m5-quiz" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-6">Quiz 5: Databases</h2>
+                     <p class="text-slate-400">Quiz content placeholder... More questions coming soon!</p>
+                     <!-- Add Quiz 5 form here later -->
+                 </div>
+
+                 <!-- Module 6 Content: Tools -->
+                 <div id="content-m6-git" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">6.1 Git & GitHub</h2>
+                    <p class="mb-4 text-slate-300">Learn version control fundamentals with Git and collaboration using GitHub.</p>
+                     <div class="aspect-video mb-6">
+                         <iframe src="https://www.youtube.com/embed/Ez8F0nW6S-w" title="Git and GitHub Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://www.w3schools.com/git/" target="_blank" class="text-yellow-400 hover:underline">W3Schools: Git Tutorial</a></li>
+                         <li><a href="https://docs.github.com/en/get-started/quickstart" target="_blank" class="text-yellow-400 hover:underline">GitHub Quickstart Guide</a></li>
+                         <li><a href="https://git-scm.com/book/en/v2" target="_blank" class="text-yellow-400 hover:underline">Pro Git Book (Free Online)</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m6-deploy" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-white mb-4">6.2 Deployment Basics</h2>
+                     <p class="mb-4 text-slate-300">Learn how to deploy your web applications to platforms like Netlify or Vercel.</p>
+                     <div class="aspect-video mb-6">
+                        <iframe src="https://www.youtube.com/embed/5a4G61cXBcc" title="Deploying Websites Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <h3 class="text-xl font-semibold text-white mb-3">Study Materials</h3>
+                     <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                         <li><a href="https://docs.netlify.com/get-started/" target="_blank" class="text-yellow-400 hover:underline">Netlify Get Started Docs</a></li>
+                         <li><a href="https://vercel.com/docs/getting-started-with-vercel" target="_blank" class="text-yellow-400 hover:underline">Vercel Get Started Docs</a></li>
+                         <li><a href="https://render.com/docs" target="_blank" class="text-yellow-400 hover:underline">Render Deployment Docs</a></li>
+                    </ul>
+                </div>
+                 <div id="content-m6-final" class="content-section bg-[#0c1322] p-8 rounded-lg shadow-lg">
+                     <h2 class="text-2xl font-bold text-white mb-4">Final Project</h2>
+                     <p class="text-slate-300 mb-4">Combine all the skills you've learned to build a complete full-stack web application. This is your chance to showcase your abilities by creating a project like a blog, an e-commerce site, or a social media platform.</p>
+                      <h3 class="text-xl font-semibold text-white mb-3">Requirements (Example)</h3>
+                      <ul class="list-disc list-inside space-y-2 text-slate-300 pl-2">
+                          <li>Must include both frontend (React) and backend (Node/Express) components.</li>
+                          <li>Must use a database (MongoDB) for data persistence.</li>
+                          <li>Must implement user authentication.</li>
+                          <li>Must be deployed to a live hosting platform.</li>
+                          <li>Code must be version controlled using Git and hosted on GitHub.</li>
+                      </ul>
+                     <p class="mt-6 text-slate-300">Further details and submission guidelines will be provided here.</p>
+                 </div>
+
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#000814] border-t border-slate-800 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-xl font-bold text-white">Ed Tech</h4>
+                    <p class="text-slate-400 mt-2">Empowering the future of learning.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold text-white mb-4">Subjects</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Web Development</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Data Science</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">AI & ML</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Cybersecurity</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Languages</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-yellow-400">Python</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">JavaScript</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">C++</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Java</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Company</h5>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="about.html" class="hover:text-yellow-400">About</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Careers</a></li>
+                        <li><a href="#" class="hover:text-yellow-400">Blog</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h5 class="font-bold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                       <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Twitter Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.76 2.81 1.91 3.58-.71 0-1.37-.22-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.35 0-.69-.02-1.03-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.38-.01-.57.84-.6 1.56-1.36 2.14-2.22z"></path></svg>
+                       </a>
+                        <a href="#" class="text-slate-400 hover:text-yellow-400">
+                           <!-- Facebook Icon -->
+                           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-5.5H9V9.5h2V7.41c0-2.09 1.29-3.25 3.23-3.25.92 0 1.7.07 1.93.1v2.12h-1.26c-1.03 0-1.23.49-1.23 1.2v1.42h2.36l-.31 2H14.73V17H11z"></path></svg>
+                       </a>
+                        <!-- Add more social icons as needed -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-800 pt-8 text-center text-slate-500">
+                <p>&copy; 2025 Ed Tech. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+     <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4 hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+             // Fade-in animation for initial load
+            const initialFaders = document.querySelectorAll('main.fade-in, aside.fade-in');
+            initialFaders.forEach(el => el.classList.add('visible'));
+
+
+            // Sidebar Navigation & Content Switching
+            const courseNav = document.getElementById('course-nav');
+            const contentDisplay = document.getElementById('content-display');
+            const contentSections = contentDisplay.querySelectorAll('.content-section');
+            const sidebarLinks = courseNav.querySelectorAll('.sidebar-link');
+
+            if (courseNav && contentDisplay) {
+                // Function to handle content switching
+                function switchContent(contentId) {
+                     if (!contentId) return;
+
+                     // Update active link style
+                    sidebarLinks.forEach(link => {
+                        if (link.getAttribute('data-content') === contentId) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+
+                     // Switch content section
+                    let foundContent = false;
+                    contentSections.forEach(section => {
+                        if (section.id === `content-${contentId}`) {
+                            section.classList.add('active');
+                            foundContent = true;
+                             // Trigger fade-in for the newly active section
+                             requestAnimationFrame(() => {
+                                section.classList.add('visible');
+                            });
+                        } else {
+                            section.classList.remove('active', 'visible');
+                        }
+                    });
+                     // Show default if no specific content found or on initial load with no hash
+                    const defaultContent = document.getElementById('content-default');
+                     if (!foundContent && defaultContent) {
+                         defaultContent.classList.add('active', 'visible');
+                         sidebarLinks.forEach(link => link.classList.remove('active')); // Clear active links
+                    } else if (defaultContent && foundContent) {
+                         defaultContent.classList.remove('active', 'visible');
+                     }
+                      // Scroll main content area to top smoothly
+                      contentDisplay.closest('main').scrollTo({ top: 0, behavior: 'smooth' });
+
+                }
+
+                // Event listener for sidebar clicks
+                courseNav.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const targetLink = event.target.closest('.sidebar-link');
+                    if (!targetLink) return;
+                    const contentId = targetLink.getAttribute('data-content');
+                    switchContent(contentId);
+                     // Update URL hash for bookmarking/linking (optional)
+                     // window.location.hash = contentId;
+                });
+
+                 // Initial content load based on URL hash (optional)
+                 // const initialHash = window.location.hash.substring(1);
+                 // if (initialHash) {
+                 //    switchContent(initialHash);
+                 // } else {
+                 //    switchContent(null); // Show default
+                 // }
+                 // Show default content initially if no hash
+                  if (document.getElementById('content-default')) {
+                        document.getElementById('content-default').classList.add('active', 'visible');
+                  }
+
+            }
+
+
+            // Basic Quiz Functionality (Example for Quiz 1)
+            const quiz1Form = document.getElementById('quiz-1');
+            if (quiz1Form) {
+                 // Handle option selection style
+                quiz1Form.addEventListener('change', (event) => {
+                     if (event.target.type === 'radio') {
+                         const optionsContainer = event.target.closest('.quiz-options');
+                         optionsContainer.querySelectorAll('.quiz-option').forEach(label => {
+                             label.classList.remove('selected');
+                         });
+                         event.target.closest('.quiz-option').classList.add('selected');
+                     }
+                });
+
+                quiz1Form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const answers = { q1: 'a', q2: 'b' }; // Correct answers
+                    let score = 0;
+                    const totalQuestions = Object.keys(answers).length;
+                    const formData = new FormData(quiz1Form);
+
+                    for (const [question, correctAnswer] of Object.entries(answers)) {
+                        const userAnswer = formData.get(question);
+                        const questionGroup = quiz1Form.querySelector(`input[name="${question}"]`).closest('.mb-6');
+                        const options = questionGroup.querySelectorAll('.quiz-option');
+                        const feedbackEl = questionGroup.querySelector('.quiz-feedback');
+
+                        options.forEach(label => {
+                             label.classList.remove('selected', 'correct', 'incorrect');
+                             const input = label.querySelector('input');
+                             if (input.value === correctAnswer) {
+                                 label.classList.add('correct'); // Highlight correct answer
+                             }
+                             if (input.value === userAnswer && userAnswer !== correctAnswer) {
+                                 label.classList.add('incorrect'); // Highlight wrong selected answer
+                             }
+                              input.disabled = true; // Disable after submission
+                        });
+
+                        if (userAnswer === correctAnswer) {
+                            score++;
+                             feedbackEl.textContent = 'Correct!';
+                             feedbackEl.style.color = '#10B981'; // Green
+                        } else if (userAnswer) {
+                            feedbackEl.textContent = `Incorrect. The correct answer was ${correctAnswer.toUpperCase()}.`;
+                             feedbackEl.style.color = '#EF4444'; // Red
+                        } else {
+                             feedbackEl.textContent = 'You did not answer this question.';
+                             feedbackEl.style.color = '#FBBF24'; // Yellow
+                        }
+                         feedbackEl.classList.remove('hidden');
+                    }
+
+                    const resultEl = document.getElementById('quiz-1-result');
+                    resultEl.textContent = `Your Score: ${score} out of ${totalQuestions}`;
+                    resultEl.style.color = score / totalQuestions >= 0.6 ? '#34D399' : '#F87171'; // Green if >= 60%, else Red
+                    resultEl.classList.remove('hidden');
+
+                     quiz1Form.querySelector('button[type="submit"]').disabled = true; // Disable submit button
+                     quiz1Form.querySelector('button[type="submit"]').textContent = 'Submitted';
+                     quiz1Form.querySelector('button[type="submit"]').classList.add('opacity-50', 'cursor-not-allowed');
+                });
+            }
+
+
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                    } else {
+                        scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
+                    }
+                });
+
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
+
