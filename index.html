@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ed Tech - Empower Your Future</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display-swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -25,6 +25,8 @@
         .code-block-content {
             font-family: 'Courier New', Courier, monospace;
             color: #a7b3c5;
+            white-space: pre-wrap; /* Ensure wrapping */
+            word-wrap: break-word; /* Ensure long lines break */
         }
         .typing-cursor {
             display: inline-block;
@@ -82,6 +84,11 @@
         .carousel-item {
             scroll-snap-align: start;
         }
+         /* Add padding to group to bridge the gap - For header dropdown */
+         .group {
+            padding-bottom: 0.5rem; /* Adjust as needed */
+            margin-bottom: -0.5rem; /* Counteract the padding */
+         }
     </style>
 </head>
 <body class="antialiased">
@@ -89,29 +96,18 @@
     <!-- Header -->
     <header class="bg-slate-900/80 sticky top-0 z-50 shadow-md shadow-slate-800 backdrop-blur-sm">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-white">Ed Tech</a>
+            <a href="index.html" class="text-2xl font-bold text-white">Ed Tech</a>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="index.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Home</a>
-                <!-- Catalog Dropdown -->
-                <div class="relative group">
-                    <button class="text-slate-300 hover:text-yellow-400 transition duration-300 flex items-center">
-                        Catalog
-                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="absolute hidden group-hover:block bg-white text-black rounded-md shadow-lg mt-2 py-2 w-48">
-                        <a href="webdev.html" class="block px-4 py-2 hover:bg-gray-200">Web Development</a>
-                        <a href="" class="block px-4 py-2 hover:bg-gray-200">Data Science</a>
-                        <a href="cpp.html" class="block px-4 py-2 hover:bg-gray-200">C++</a>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Python</a>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-200">Java</a>
-                    </div>
-                </div>
+                <a href="index.html" class="text-yellow-400 transition duration-300">Home</a> <!-- Highlight Home -->
+                <!-- MODIFIED: Simple Catalog Link -->
+                <a href="catalog.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Catalog</a>
                 <a href="about.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">About</a>
                 <a href="contact.html" class="text-slate-300 hover:text-yellow-400 transition duration-300">Contact</a>
             </div>
             <div class="hidden md:flex items-center space-x-4">
-                <button class="text-white hover:text-yellow-400 transition">Log In</button>
-                <button class="bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300">Sign Up</button>
+                <!-- MODIFIED: Links added -->
+                <a href="login.html" class="text-white hover:text-yellow-400 transition">Log In</a>
+                <a href="signup.html" class="bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300">Sign Up</a>
             </div>
              <button id="mobile-menu-button" class="md:hidden text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -121,13 +117,15 @@
         </nav>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
-             <a href="home.html" class="block text-slate-300 hover:text-yellow-400 py-2">Home</a>
-             <a href="#" class="block text-slate-300 hover:text-yellow-400 py-2">Catalog</a>
+             <a href="index.html" class="block text-yellow-400 py-2">Home</a> <!-- Highlight Home -->
+             <!-- MODIFIED: Simple Catalog Link -->
+             <a href="catalog.html" class="block text-slate-300 hover:text-yellow-400 py-2">Catalog</a>
              <a href="about.html" class="block text-slate-300 hover:text-yellow-400 py-2">About</a>
              <a href="contact.html" class="block text-slate-300 hover:text-yellow-400 py-2">Contact</a>
              <div class="mt-4 pt-4 border-t border-slate-700">
-                <button class="w-full text-left text-white hover:text-yellow-400 transition py-2">Log In</button>
-                <button class="w-full mt-2 bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300">Sign Up</button>
+                 <!-- MODIFIED: Links added -->
+                <a href="login.html" class="w-full text-left text-white hover:text-yellow-400 transition py-2">Log In</a>
+                <a href="signup.html" class="w-full mt-2 bg-yellow-400 text-black font-bold py-2 px-5 rounded-lg hover:bg-yellow-500 transition duration-300 block text-center">Sign Up</a>
              </div>
         </div>
     </header>
@@ -137,7 +135,7 @@
         <!-- Section 1: Hero -->
         <section id="home" class="relative py-32 lg:py-48 text-white overflow-hidden">
             <div class="absolute inset-0 z-[-1]">
-                <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="w-full h-full object-cover" alt="Code background">
+                <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" class="w-full h-full object-cover" alt="Code background" onerror="this.src='https://placehold.co/1920x1080/000814/ffffff?text=Hero+Background'">
                 <div class="absolute inset-0 bg-black/70"></div>
             </div>
             <div class="container mx-auto px-6 text-center relative z-10">
@@ -148,9 +146,10 @@
                     <p class="mt-6 max-w-2xl mx-auto text-lg text-slate-300">
                         Flexible online courses designed to turn beginners into job-ready developers.
                     </p>
-                    <div class="mt-10 flex justify-center gap-4">
-                        <button class="bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300 transform hover:scale-105">Learn More</button>
-                        <button class="bg-slate-700 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600 transition duration-300 transform hover:scale-105">Join For Free</button>
+                    <div class="mt-10 flex flex-wrap justify-center gap-4">
+                        <!-- MODIFIED: Links added -->
+                        <a href="learnmore.html" class="bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300 transform hover:scale-105">Learn More</a>
+                        <a href="signup.html" class="bg-slate-700 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600 transition duration-300 transform hover:scale-105">Join For Free</a>
                     </div>
                 </div>
             </div>
@@ -163,13 +162,15 @@
                     <div class="lg:w-1/2 text-center lg:text-left fade-in">
                         <h2 class="text-4xl font-extrabold text-white">Unlock Your <span class="gradient-text-blue">coding potential</span> with our online courses</h2>
                         <p class="mt-6 text-slate-400">Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you.</p>
-                        <div class="mt-8 flex justify-center lg:justify-start gap-4">
-                            <button class="border border-yellow-400 text-yellow-400 font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 hover:text-black transition duration-300">Try it Yourself</button>
-                            <button class="bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300">Learn More</button>
+                        <div class="mt-8 flex flex-wrap justify-center lg:justify-start gap-4">
+                             <!-- MODIFIED: Link added to login.html -->
+                            <a href="login.html" class="border border-yellow-400 text-yellow-400 font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 hover:text-black transition duration-300">Try it Yourself</a>
+                             <!-- MODIFIED: Link added -->
+                            <a href="learnmore.html" class="bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition duration-300">Learn More</a>
                         </div>
                     </div>
                     <div class="lg:w-1/2 w-full fade-in" style="transition-delay: 200ms;">
-                        <div id="code-block" class="bg-[#020617] rounded-lg p-6 shadow-2xl border border-slate-700">
+                        <div id="code-block" class="bg-[#020617] rounded-lg p-6 shadow-2xl border border-slate-700 max-w-full overflow-x-auto">
                             <pre><code class="code-block-content"></code></pre>
                         </div>
                     </div>
@@ -178,15 +179,19 @@
         </section>
 
         <!-- Section 3: Popular Picks -->
-        <section class="py-20 lg:py-28">
+        <section id="catalog-section" class="py-20 lg:py-28"> <!-- Added ID here -->
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12 fade-in">Popular Picks for You 🏆</h2>
                 <div class="relative fade-in">
                     <div id="popular-carousel" class="carousel flex overflow-x-auto gap-8 pb-4">
-                        <!-- Carousel items injected here -->
+                        <!-- Carousel items injected here by JS -->
                     </div>
-                    <button id="popular-prev" class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&lt;</button>
-                    <button id="popular-next" class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&gt;</button>
+                    <button id="popular-prev" class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 bg-slate-700/50 p-3 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:flex items-center justify-center w-12 h-12">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <button id="popular-next" class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 bg-slate-700/50 p-3 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:flex items-center justify-center w-12 h-12">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
                 </div>
             </div>
         </section>
@@ -216,7 +221,7 @@
                     </div>
                      <div class="learning-card bg-slate-800 p-6 rounded-lg text-left opacity-0" style="animation-delay: 0.4s;">
                         <h3 class="text-xl font-bold bg-gradient-to-r from-yellow-500 to-amber-400 text-white p-3 rounded-t-lg -m-6 mb-6">Upcoming Schedule</h3>
-                        <img src="https://placehold.co/400x250/1e293b/ffffff?text=Your+Calendar" alt="Calendar" class="rounded-md mt-4 w-full h-auto"/>
+                        <img src="cal.jpg" alt="Calendar" class="rounded-md mt-4 w-full h-auto" onerror="this.src='https://placehold.co/400x250/1e293b/ffffff?text=Calendar+Placeholder'"/>
                     </div>
                 </div>
             </div>
@@ -228,10 +233,14 @@
                  <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12 fade-in">Reviews from other learners ✍️</h2>
                  <div class="relative fade-in">
                     <div id="reviews-carousel" class="carousel flex overflow-x-auto gap-8 pb-4">
-                       <!-- Review items injected here -->
+                       <!-- Review items injected here by JS -->
                     </div>
-                    <button id="reviews-prev" class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&lt;</button>
-                    <button id="reviews-next" class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 bg-slate-700/50 p-2 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:block">&gt;</button>
+                    <button id="reviews-prev" class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-4 bg-slate-700/50 p-3 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:flex items-center justify-center w-12 h-12">
+                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                   </button>
+                   <button id="reviews-next" class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-4 bg-slate-700/50 p-3 rounded-full text-white hover:bg-slate-600/80 transition z-10 hidden md:flex items-center justify-center w-12 h-12">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                   </button>
                 </div>
             </div>
         </section>
@@ -283,8 +292,8 @@
                 <div>
                     <h5 class="font-bold text-white mb-4">Subjects</h5>
                     <ul class="space-y-2 text-slate-400">
-                        <li><a href="#" class="hover:text-yellow-400">Web Development</a></li>
-                        <li><a href="#" class="hover:text-yellow-400">Data Science</a></li>
+                        <li><a href="webdev.html" class="hover:text-yellow-400">Web Development</a></li>
+                        <li><a href="datascience.html" class="hover:text-yellow-400">Data Science</a></li>
                         <li><a href="#" class="hover:text-yellow-400">AI & ML</a></li>
                         <li><a href="#" class="hover:text-yellow-400">Cybersecurity</a></li>
                     </ul>
@@ -292,16 +301,16 @@
                  <div>
                     <h5 class="font-bold text-white mb-4">Languages</h5>
                     <ul class="space-y-2 text-slate-400">
-                        <li><a href="#" class="hover:text-yellow-400">Python</a></li>
+                        <li><a href="python.html" class="hover:text-yellow-400">Python</a></li>
                         <li><a href="#" class="hover:text-yellow-400">JavaScript</a></li>
-                        <li><a href="#" class="hover:text-yellow-400">C++</a></li>
-                        <li><a href="#" class="hover:text-yellow-400">Java</a></li>
+                        <li><a href="cpp.html" class="hover:text-yellow-400">C++</a></li>
+                        <li><a href="java.html" class="hover:text-yellow-400">Java</a></li>
                     </ul>
                 </div>
                  <div>
                     <h5 class="font-bold text-white mb-4">Company</h5>
                     <ul class="space-y-2 text-slate-400">
-                        <li><a href="#" class="hover:text-yellow-400">About</a></li>
+                        <li><a href="about.html" class="hover:text-yellow-400">About</a></li>
                         <li><a href="#" class="hover:text-yellow-400">Careers</a></li>
                         <li><a href="#" class="hover:text-yellow-400">Blog</a></li>
                     </ul>
@@ -325,7 +334,7 @@
     </footer>
     
     <!-- Scroll to Top Button -->
-    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4">
+    <button id="scrollToTopBtn" class="scroll-to-top fixed bottom-5 right-5 bg-yellow-400 text-black p-3 rounded-full shadow-lg opacity-0 transform translate-y-4 hidden md:block"> <!-- Hidden on small screens -->
          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>
@@ -337,9 +346,11 @@
             // Mobile Menu Toggle
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+            if(mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
 
             // Intersection Observer for animations
             const observer = new IntersectionObserver((entries) => {
@@ -354,122 +365,173 @@
 
             // Code typing animation
             const codeBlock = document.getElementById('code-block');
-            const codeElement = codeBlock.querySelector('.code-block-content');
-            const codeToType = `#include <stdio.h>
+            if (codeBlock) {
+                const codeElement = codeBlock.querySelector('.code-block-content');
+                const codeToType = `#include <iostream>
 
 int main() {
-    printf("Hello, world!");
+    std::cout << "Hello, Ed Tech!";
     return 0;
-}`;
+}`; // Changed to C++ example
 
-            let i = 0;
-            function typeCode() {
-                if (i < codeToType.length) {
-                    codeElement.innerHTML += codeToType.charAt(i) === '\n' ? '<br>' : codeToType.charAt(i);
-                    i++;
-                    setTimeout(typeCode, 50);
-                } else {
-                     codeElement.innerHTML += '<span class="typing-cursor"></span>';
-                }
-            }
-            
-            const codeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        typeCode();
-                        codeObserver.unobserve(entry.target);
+                let i = 0;
+                function typeCode() {
+                    if (i < codeToType.length) {
+                        // Handle newline characters properly in pre tag
+                        codeElement.textContent += codeToType.charAt(i);
+                        i++;
+                        setTimeout(typeCode, 50); // Adjust speed if needed
+                    } else {
+                        // Add cursor span after typing finishes
+                        const cursorSpan = document.createElement('span');
+                        cursorSpan.className = 'typing-cursor';
+                        codeElement.appendChild(cursorSpan);
                     }
-                });
-            }, { threshold: 0.5 });
-            
-            codeObserver.observe(codeBlock);
+                }
+                
+                // Observer to start typing when block is visible
+                const codeObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            codeElement.textContent = ''; // Clear existing content before starting
+                            i = 0; // Reset index
+                            typeCode();
+                            codeObserver.unobserve(entry.target); // Only type once
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                codeObserver.observe(codeBlock);
+            }
 
             // Contact Form Submission
             const contactForm = document.getElementById('contact-form');
             const formStatus = document.getElementById('form-status');
-            async function handleSubmit(event) {
-                event.preventDefault();
-                const formData = new FormData(event.target);
-                formStatus.innerText = 'Sending...';
-                formStatus.style.color = '#FBBF24';
-                try {
-                    const response = await fetch(event.target.action, {
-                        method: contactForm.method,
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    if (response.ok) {
-                        formStatus.innerText = "Thanks for your message! I'll get back to you soon.";
-                        formStatus.style.color = '#34D399';
-                        contactForm.reset();
-                    } else {
-                        response.json().then(data => {
-                            formStatus.innerText = data.errors ? data.errors.map(e => e.message).join(", ") : "Oops! There was a problem.";
-                            formStatus.style.color = '#F87171';
+            if (contactForm && formStatus) {
+                async function handleSubmit(event) {
+                    event.preventDefault();
+                    const formData = new FormData(event.target);
+                    formStatus.innerText = 'Sending...';
+                    formStatus.style.color = '#FBBF24';
+                    try {
+                        const response = await fetch(event.target.action, {
+                            method: contactForm.method,
+                            body: formData,
+                            headers: { 'Accept': 'application/json' }
                         });
+                        if (response.ok) {
+                            formStatus.innerText = "Thanks for your message! I'll get back to you soon.";
+                            formStatus.style.color = '#34D399';
+                            contactForm.reset();
+                        } else {
+                            response.json().then(data => {
+                                formStatus.innerText = data.errors ? data.errors.map(e => e.message).join(", ") : "Oops! There was a problem submitting your form.";
+                                formStatus.style.color = '#F87171';
+                            }).catch(() => {
+                                formStatus.innerText = "Oops! There was a problem submitting your form.";
+                                formStatus.style.color = '#F87171';
+                            });
+                        }
+                    } catch (error) {
+                        formStatus.innerText = "Oops! There was a problem submitting your form.";
+                        formStatus.style.color = '#F87171';
                     }
-                } catch (error) {
-                    formStatus.innerText = "Oops! There was a problem submitting your form.";
-                    formStatus.style.color = '#F87171';
+                    setTimeout(() => { formStatus.innerText = ''; }, 5000);
                 }
-                setTimeout(() => { formStatus.innerText = ''; }, 5000);
+                contactForm.addEventListener("submit", handleSubmit);
             }
-            contactForm.addEventListener("submit", handleSubmit);
 
             // Scroll to Top Button
             const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
-                } else {
-                    scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
-                }
-            });
-            scrollToTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            if (scrollToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+                    } else {
+                        scrollToTopBtn.classList.add('opacity-0', 'translate-y-4');
+                    }
+                });
+                scrollToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
             
             // --- CAROUSEL LOGIC ---
-            function setupCarousel(carouselId, prevBtnId, nextBtnId, items) {
+            function setupCarousel(carouselId, prevBtnId, nextBtnId, itemsHTML) {
                 const carousel = document.getElementById(carouselId);
                 const prevBtn = document.getElementById(prevBtnId);
                 const nextBtn = document.getElementById(nextBtnId);
+
+                if (!carousel || !prevBtn || !nextBtn) {
+                    console.error("Carousel elements not found:", carouselId, prevBtnId, nextBtnId);
+                    return; // Exit if elements are missing
+                }
                 
-                carousel.innerHTML = items;
+                carousel.innerHTML = itemsHTML; // Populate carousel
+
+                // Check if there are items to scroll
+                const hasItems = carousel.querySelector('.carousel-item');
+                if (!hasItems) {
+                     prevBtn.style.display = 'none';
+                     nextBtn.style.display = 'none';
+                     return; // No items, hide buttons
+                }
 
                 const scroll = () => {
-                    const scrollLeft = carousel.scrollLeft;
+                    // Check again inside scroll in case items are loaded dynamically later
+                    if (!carousel.querySelector('.carousel-item')) return;
+                    
+                    const scrollLeft = Math.round(carousel.scrollLeft);
                     const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-                    prevBtn.style.display = scrollLeft > 0 ? 'block' : 'none';
-                    nextBtn.style.display = scrollLeft < maxScroll - 1 ? 'block' : 'none';
+                    // Show/hide based on scroll position with a small tolerance for precision issues
+                    prevBtn.classList.toggle('md:flex', scrollLeft > 1);
+                    prevBtn.classList.toggle('hidden', scrollLeft <= 1);
+                    nextBtn.classList.toggle('md:flex', scrollLeft < maxScroll - 1);
+                    nextBtn.classList.toggle('hidden', scrollLeft >= maxScroll - 1);
                 };
 
                 const slide = (direction) => {
-                    const cardWidth = carousel.querySelector('.carousel-item').offsetWidth + 32; // 32 is gap
-                    carousel.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+                     const firstItem = carousel.querySelector('.carousel-item');
+                     if (!firstItem) return; // Exit if no items found
+                    const itemWidth = firstItem.offsetWidth;
+                    const gap = parseInt(window.getComputedStyle(carousel).gap) || 32; // Get gap or default to 32
+                    const scrollAmount = itemWidth + gap;
+                    carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
                 };
                 
                 prevBtn.addEventListener('click', () => slide(-1));
                 nextBtn.addEventListener('click', () => slide(1));
                 carousel.addEventListener('scroll', scroll);
                 
-                // Initial check
-                setTimeout(scroll, 100);
+                // Initial check and slight delay for layout calculation
+                setTimeout(scroll, 150);
+                // Re-check on window resize
+                window.addEventListener('resize', scroll);
             }
             
-            // Popular Picks Data and Setup
+            // MODIFIED: Popular Picks Data and Setup with YouTube Links
             const popularItems = [
-                { img: 'https://placehold.co/400x225/f97316/ffffff?text=Learn+Java', title: 'Learn Java - Full Course' },
-                { img: 'https://placehold.co/400x225/ef4444/ffffff?text=HTML+in+1+Hour', title: 'HTML in 1 Hour' },
-                { img: 'https://placehold.co/400x225/3b82f6/ffffff?text=Complete+HTML', title: 'Complete 2 Hour HTML' },
-                { img: 'https://placehold.co/400x225/8b5cf6/ffffff?text=Web+Development', title: 'Web Development Guide' },
-                { img: 'https://placehold.co/400x225/ec4899/ffffff?text=JavaScript', title: 'Learn JavaScript in 1 Hour' },
+                 // Updated video IDs based on common tutorial playlists
+                 { videoId: 'UmnCZ7-9yDY', title: 'Java Tutorial For Beginners', channel: 'Telusko' }, // Telusko Java Playlist Start
+                 { videoId: 'HcOc7P5BMi4', title: 'Complete Web Development Course', channel: 'CodeWithHarry' }, // CWH Web Dev Playlist Start
+                 { videoId: 'gfDE2a7MKjA', title: 'Python Tutorial for Beginners', channel: 'CodeWithHarry' }, // CWH Python
+                 { videoId: 'z9bZufPHFLU', title: 'Complete C++ Placement Course', channel: 'Apna College (Shradha)' }, // Shradha C++ Playlist Start
+                 { videoId: 'ER9SspLe4Hg', title: 'JavaScript Tutorial for Beginners', channel: 'CodeWithHarry' }, // CWH JS
+                 { videoId: 'DsWBOX2M3uk', title: 'Data Science Full Course', channel: 'Apna College (Shradha)' }, // Shradha Data Science
             ];
             const popularHTML = popularItems.map(item => `
-                <div class="carousel-item flex-shrink-0 w-80 bg-slate-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-                    <img src="${item.img}" alt="${item.title}" class="w-full h-48 object-cover">
-                    <div class="p-4"><h4 class="font-bold text-lg text-white">${item.title}</h4></div>
-                </div>
+                <a href="https://www.youtube.com/watch?v=${item.videoId}" target="_blank" class="carousel-item flex-shrink-0 w-72 md:w-80 bg-slate-800 rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 group">
+                    <div class="relative">
+                       <img src="https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg" alt="${item.title}" class="w-full h-40 md:h-48 object-cover" onerror="this.src='https://placehold.co/400x225/1e293b/ffffff?text=${encodeURIComponent(item.title)}'">
+                       <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                       </div>
+                   </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-base md:text-lg text-white truncate" title="${item.title}">${item.title}</h4>
+                        <p class="text-sm text-slate-400">${item.channel}</p>
+                    </div>
+                </a>
             `).join('');
             setupCarousel('popular-carousel', 'popular-prev', 'popular-next', popularHTML);
 
@@ -481,7 +543,7 @@ int main() {
                 { name: 'Sneha Singh', course: 'Full Stack MERN', text: 'The mentors are super helpful and the content is really engaging.', avatar: 'SS' }
             ];
              const reviewsHTML = reviewItems.map(item => `
-                <div class="carousel-item flex-shrink-0 w-96 bg-slate-800 rounded-lg shadow-lg p-6">
+                <div class="carousel-item flex-shrink-0 w-full sm:w-[400px] md:w-[450px] bg-slate-800 rounded-lg shadow-lg p-6">
                     <div class="flex items-center mb-4">
                         <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white mr-4">${item.avatar}</div>
                         <div>
@@ -489,7 +551,7 @@ int main() {
                             <p class="text-sm text-slate-400">${item.course}</p>
                         </div>
                     </div>
-                    <p class="text-slate-300 mb-4">“${item.text}”</p>
+                    <p class="text-slate-300 mb-4 italic">“${item.text}”</p>
                     <div class="text-yellow-400">⭐⭐⭐⭐⭐</div>
                 </div>
             `).join('');
@@ -500,6 +562,4 @@ int main() {
 
 </body>
 </html>
-
-
 
